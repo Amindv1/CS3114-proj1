@@ -64,6 +64,9 @@ public class Memman
                             // for this. It should print nodes in order:
                             // (start pos, length) -> (next start pos, next
                             // length) -> ... and so on
+
+                            // There also needs to be a link from the MemManager
+                            // to the Doubly Linked List so I can call it here
                             System.out.println("(" + ")");
                             break;
                     }
