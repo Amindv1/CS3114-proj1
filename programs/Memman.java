@@ -16,7 +16,7 @@ public class Memman
 
     }
 
-    public void parse(File file) throws IOException
+    public void parse(File file) throws Exception
     {
         BufferedReader in = new BufferedReader(new InputStreamReader(new
             FileInputStream(file)));
@@ -33,18 +33,18 @@ public class Memman
             {
                 case "insert":
                     info = command[1].split("<SEP>");
-                    memman.getHashMapArtists.insert(info[0]);
-                    memman.getHashMapSongs.insert(info[1]);
+                    memman.getHashTableArtists().put(info[0]);
+                    memman.getHashTableSongs().put(info[1]);
                     break;
                 case "remove":
                     info = command[1].split(" ", 2);
                     switch(info[0])
                     {
                         case "artist":
-                            memman.getHashMapArtists.remove(info[1]);
+                            memman.getHashTableArtists().remove(info[1]);
                             break;
                         case "song":
-                            memman.getHashMapSongs.remove(info[1]);
+                            memman.getHashTableSongs().remove(info[1]);
                             break;
                     }
                     break;
@@ -53,11 +53,11 @@ public class Memman
                     {
                         case "artist":
                             System.out.println("total artists: " +
-                                memman.getHashMapArtists.currentSize());
+                                memman.getHashTableArtists().currentSize());
                             break;
                         case "song":
                             System.out.println("total artists: " +
-                                memman.getHashMapSongs.currentSize());
+                                memman.getHashTableSongs().currentSize());
                             break;
                         case "blocks":
                             // Doubly Linked list needs a different toString()
