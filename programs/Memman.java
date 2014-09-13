@@ -60,6 +60,10 @@ public class Memman
                                 memman.getHashMapSongs.currentSize());
                             break;
                         case "blocks":
+                            // Doubly Linked list needs a different toString()
+                            // for this. It should print nodes in order:
+                            // (start pos, length) -> (next start pos, next
+                            // length) -> ... and so on
                             System.out.println("(" + ")");
                             break;
                     }
