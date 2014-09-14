@@ -34,6 +34,17 @@ public class MemPoolTest extends student.TestCase
         assertEquals(2, pool.getLinkedList().getCurrentLength());
 
         assertEquals(0, pool.insert("hello".getBytes(), "hello".length()));
+        pool.getLinkedList().moveToFront();
+        assertEquals(7, pool.getLinkedList().getCurrentPosition());
+        assertEquals(1, pool.getLinkedList().size());
+        pool.getLinkedList().next();
+        assertEquals(7, pool.getLinkedList().getCurrentPosition());
+        assertEquals(1, pool.getLinkedList().getCurrentLength());
+
+
+
+
+        assertEquals(7, pool.insert("yoloswag".getBytes(), "yoloswag".length()));
     }
 
 

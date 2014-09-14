@@ -69,7 +69,7 @@ public class MemPool
             freeblockList.removeCurrent();
         }
 
-        freeblockList.setCurrentLength(freeblockList.getCurrentLength() - size);
+        freeblockList.setCurrentLength(freeblockList.getCurrentLength() - size - DATALENGTH);
         freeblockList.setCurrentPosition(freeblockList.getCurrentPosition()
             + size + DATALENGTH);
 
@@ -77,49 +77,13 @@ public class MemPool
     }
 
     public void remove(Handle theHandle) {
-        freeblockList.add((Integer) theHandle.getData(),
-            (Integer) (((memPool[theHandle.getData()] & 0xFF) << 8) +
-                memPool[theHandle.getData() + 1]));
 
-        if (!freeblockList.isCurrentFirst())
-        {
-            freeblockList.previous();
-            int pos = freeblockList.getCurrentPosition() +
-            freeblockList.getCurrentLength();
+        freeblockList.add(theHandle.getData(),
+            ((memPool[theHandle.getData()] & 0xFF) << 8) +
+                memPool[theHandle.getData() + 1]);
 
-            freeblockList.next();
-            if (pos == freeblockList.getCurrentPosition())
-            {
                 merge();
-            }
-        }
-
-        if (!freeblockList.isCurrentLast())
-        {
-            int pos = freeblockList.getCurrentPosition() +
-            freeblockList.getCurrentLength();
-
-            freeblockList.next();
-            if (pos == freeblockList.getCurrentPosition())
-            {
-                merge();
-            }
-        }
     }
-
-    public void merge()
-    {
-        int capacity = freeblockList.getCurrentLength();
-
-        freeblockList.removeCurrent();
-        capacity += freeblockList.getCurrentLength();
-
-        int pos = freeblockList.getCurrentPosition();
-        freeblockList.removeCurrent();
-
-        freeblockList.add(pos, capacity);
-    }
-
 
     /**
      * @param length
@@ -137,9 +101,12 @@ public class MemPool
             bestPos = findBestFit(length);
         }
 
+        System.out.println("dll size: " + freeblockList.size());
+
         for (int i = 0; i < freeblockList.size(); i++)
         {
             System.out.println("entered for loop");
+            System.out.println("dll size in loop: " + freeblockList.size());
             int currDiff = freeblockList.getCurrentLength() - length;
             System.out.println("curr diff for iteration " + i + ": " + currDiff);
             // we change our best difference if the new one is closer to 0.
@@ -212,10 +179,14 @@ public class MemPool
         memPool = newPool;
     }
 
+    // ----------------------------------------------------------
+    /**
+     * merges the free blocks in the freeblock list.
+     */
     public void merge() {
 
         freeblockList.moveToFront();
-
+        System.out.println("in merge. dll size: " + freeblockList.size());
         for (int i = 0; i < freeblockList.size(); i++) {
 
             if(freeblockList.getNext() == null) {
@@ -224,8 +195,6 @@ public class MemPool
             }
 
             //checks if the two freeblocks are adjacent, if they are it merges them.
-            System.out.println("in merge. curr postiion: " + freeblockList.getCurrentPosition() + "next position: " + freeblockList.getNext().getPosition());
-            System.out.println("curr length: " + freeblockList.getCurrentLength());
             if(freeblockList.getCurrentPosition() + freeblockList.getCurrentLength() == ((int)freeblockList.getNext().getPosition())) {
 
                 freeblockList.setCurrentLength(freeblockList.getCurrentLength() + (int)freeblockList.getNext().getLength());
