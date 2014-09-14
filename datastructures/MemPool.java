@@ -1,5 +1,7 @@
 package datastructures;
 
+import programs.Handle;
+
 /**
  * // -------------------------------------------------------------------------
  * /** Write a one-sentence summary of your class here. Follow it with
@@ -24,7 +26,6 @@ public class MemPool
      */
     public MemPool(int poolSize)
     {
-
         initialPoolSize = poolSize;
         memPool = new byte[poolSize];
         freeblockList = new DoublyLinkedList<Integer>();
@@ -36,6 +37,50 @@ public class MemPool
      */
     public void insert() {
 
+    }
+
+    public void remove(Handle theHandle) {
+        freeblockList.add((Integer) theHandle.getData(),
+            (Integer) (((memPool[theHandle.getData()] & 0xFF) << 8) +
+                memPool[theHandle.getData() + 1]));
+
+        if (!freeblockList.isCurrentFirst())
+        {
+            freeblockList.previous();
+            int pos = freeblockList.getCurrentPosition() +
+            freeblockList.getCurrentLength();
+
+            freeblockList.next();
+            if (pos == freeblockList.getCurrentPosition())
+            {
+                merge();
+            }
+        }
+
+        if (!freeblockList.isCurrentLast())
+        {
+            int pos = freeblockList.getCurrentPosition() +
+            freeblockList.getCurrentLength();
+
+            freeblockList.next();
+            if (pos == freeblockList.getCurrentPosition())
+            {
+                merge();
+            }
+        }
+    }
+
+    public void merge()
+    {
+        int capacity = freeblockList.getCurrentLength();
+
+        freeblockList.removeCurrent();
+        capacity += freeblockList.getCurrentLength();
+
+        int pos = freeblockList.getCurrentPosition();
+        freeblockList.removeCurrent();
+
+        freeblockList.add(pos, capacity);
     }
 
 
@@ -85,12 +130,16 @@ public class MemPool
      */
     public void dump()
     {
+        String str = "";
         freeblockList.moveToFront();
         for (int i = 0; i < freeblockList.size(); i++)
         {
-            System.out.println(freeblockList.getCurrentLength());
+            str += "(" + freeblockList.getCurrentPosition() +
+                ", " + freeblockList.getCurrentLength() + ") -> ";
             freeblockList.next();
         }
+
+        System.out.println(str.substring(0, str.length() - 4));
     }
 
 

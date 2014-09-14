@@ -60,14 +60,7 @@ public class Memman
                                 memman.getHashTableSongs().currentSize());
                             break;
                         case "blocks":
-                            // Doubly Linked list needs a different toString()
-                            // for this. It should print nodes in order:
-                            // (start pos, length) -> (next start pos, next
-                            // length) -> ... and so on
-
-                            // There also needs to be a link from the MemManager
-                            // to the Doubly Linked List so I can call it here
-                            System.out.println("(" + ")");
+                            memman.dump();
                             break;
                     }
                     break;
