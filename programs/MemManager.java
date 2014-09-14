@@ -19,7 +19,6 @@ public class MemManager
     private MemPool          memPool;
     private static int       initialPoolsize;
     private static final int DATASTART = 3;
-    private static final int DATALENGTH = 2;
 
 
     public MemManager(int poolsize)
@@ -34,8 +33,7 @@ public class MemManager
     // space contains the record to be inserted, of length size.
     public Handle insert(byte[] space, int size)
     {
-        int pos = memPool.findBestFit(size + DATALENGTH);
-        Handle h = new Handle(pos);
+        Handle h = new Handle(memPool.insert(space, size));
         return h;
     }
 

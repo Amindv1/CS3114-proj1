@@ -27,6 +27,7 @@ public class DoublyLinkedList<T>
         head = new Node<T>(null, null);
         tail = new Node<T>(null, null);
         current = new Node<T>(null, null);
+        size = 0;
 
         head.join(tail);
     }
@@ -67,6 +68,14 @@ public class DoublyLinkedList<T>
         }
     }
 
+    public void setCurrentLength(T length) {
+        current.setLength(length);
+    }
+
+    public void setCurrentPosition(T position) {
+        current.setPosition(position);
+    }
+
     /**
      * moves to the beginning of the linked list
      */
@@ -79,19 +88,24 @@ public class DoublyLinkedList<T>
     /**
      * moves to the next node in the list
      */
-    public void next() {
+    public Node next() {
         if (current.next() != tail) {
             current = current.next();
+            return current;
         }
+
+        return null;
     }
 
     /**
      * moves to the previous node in the list
      */
-    public void previous() {
+    public Node previous() {
         if (current.previous() != head) {
             current = current.previous();
+            return current;
         }
+        return null;
     }
 
 
@@ -120,12 +134,16 @@ public class DoublyLinkedList<T>
         //this loop makes sure that everything that is added to the
         //doubly linked list is sorted by position
         moveToFront();
-        while((int)current.getPosition() < (int)position) {
+        if(current == null) System.out.println("curr null");
+        if(current != null) System.out.println("curr not null");
+
+        while( current != null && (int)(current.getPosition()) < (int)position) {
+
+            current = current.next();
 
             if (current.next() == null) {
                 break;
             }
-            current = current.next();
         }
 
         Node<T> previous = current.previous();
@@ -135,6 +153,15 @@ public class DoublyLinkedList<T>
         current = node;
 
         size++;
+    }
+
+    public Node getNext() {
+
+        if (current.next() != null) {
+            return current.next();
+        }
+
+        return null;
     }
 
     /**
@@ -205,6 +232,8 @@ public class DoublyLinkedList<T>
         newNode.split();
         newNode.join(node);
         node.join(tail);
+
+        current = node;
         size++;
     }
 
@@ -237,6 +266,8 @@ public class DoublyLinkedList<T>
         Node<T> node = new Node<T>(position, length);
         node.join(head.split());
         head.join(node);
+
+        current = node;
         size++;
     }
 
