@@ -1,7 +1,6 @@
 package tests;
 
 import programs.Handle;
-import programs.MemManager;
 import datastructures.MemPool;
 
 /**
@@ -29,21 +28,21 @@ public class MemPoolTest extends student.TestCase
      */
     public void testInsert() {
 
-//        assertEquals(5, pool.getPoolSize());
-//
-//        assertEquals(1,pool.getLinkedList().size());
-//        pool.getLinkedList().moveToFront();
-//        assertEquals(5, pool.getLinkedList().getCurrentLength());
-//
-//        assertEquals(0, pool.insert("hello".getBytes(), "hello".length()));
-//        pool.getLinkedList().moveToFront();
-//        assertEquals(7, pool.getLinkedList().getCurrentPosition());
-//        assertEquals(1, pool.getLinkedList().size());
-//        pool.getLinkedList().next();
-//        assertEquals(7, pool.getLinkedList().getCurrentPosition());
-//        assertEquals(3, pool.getLinkedList().getCurrentLength());
-//
-//        assertEquals(7, pool.insert("yoloswag".getBytes(), "yoloswag".length()));
+        assertEquals(5, pool.getInitialPoolSize());
+
+        assertEquals(1,pool.getLinkedList().size());
+        pool.getLinkedList().moveToFront();
+        assertEquals(5, pool.getLinkedList().getCurrentLength());
+
+        assertEquals(0, pool.insert("hello".getBytes(), "hello".length()));
+        pool.getLinkedList().moveToFront();
+        assertEquals(7, pool.getLinkedList().getCurrentPosition());
+        assertEquals(1, pool.getLinkedList().size());
+        pool.getLinkedList().next();
+        assertEquals(7, pool.getLinkedList().getCurrentPosition());
+        assertEquals(3, pool.getLinkedList().getCurrentLength());
+
+        assertEquals(7, pool.insert("yoloswag".getBytes(), "yoloswag".length()));
 
     }
 
@@ -52,9 +51,9 @@ public class MemPoolTest extends student.TestCase
      */
     public void testInsert2() {
 
-//        assertEquals(0, pool.insert("333".getBytes(), "333".length()));
-//
-//        assertEquals(pool.getLinkedList().size(), 0 );
+        assertEquals(0, pool.insert("333".getBytes(), "333".length()));
+
+        assertEquals(pool.getLinkedList().size(), 0 );
     }
 
     /**
@@ -73,5 +72,22 @@ public class MemPoolTest extends student.TestCase
         assertEquals(0, pool.getLinkedList().getCurrentPosition());
         assertEquals(10, pool.getLinkedList().getCurrentLength());
         assertEquals(1, pool.getLinkedList().size());
+
+        Handle h1 = new Handle(pool.insert("fat".getBytes(), "fat".length()));
+        Handle h2 = new Handle(pool.insert("yolo".getBytes(), "yolo".length()));
+        Handle h3 = new Handle(pool.insert("yolewqeo".getBytes(), "yolewqeo".length()));
+        Handle h4 = new Handle(pool.insert("yolasdo".getBytes(), "yolasdo".length()));
+        Handle h5 = new Handle(pool.insert("yolaklsndklnado".getBytes(), "yolaklsndklnado".length()));
+
+        pool.remove(h2);
+        pool.remove(h4);
+        assertEquals(3, pool.getLinkedList().size());
+        pool.remove(h3);
+        assertEquals(2, pool.getLinkedList().size());
+        pool.remove(h5);
+        assertEquals(1, pool.getLinkedList().size());
+        pool.remove(h1);
+        assertEquals(1, pool.getLinkedList().size());
+        assertEquals(50, pool.getCurrentPoolSize());
     }
 }

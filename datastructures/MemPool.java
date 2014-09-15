@@ -34,6 +34,10 @@ public class MemPool
     }
 
 
+    /**
+     * returns the doubly linked list
+     * @return the doubly linked list.
+     */
     public DoublyLinkedList getLinkedList()
     {
         return freeblockList;
@@ -41,9 +45,11 @@ public class MemPool
 
 
     /**
-     * @param string
-     * @param size
-     * @return
+     * inserts the string into the byte array and uses the freeblocks
+     *
+     * @param string the string to insert
+     * @param size the size of the string
+     * @return the position that the string was inserted into
      */
     public int insert(byte[] string, int size)
     {
@@ -54,14 +60,12 @@ public class MemPool
         byte byte1 = (byte)(size & 0xF);
         byte byte2 = (byte)((size >> 8) & 0xF);
 
-        System.out.println("mempool length: " + memPool.length);
-        System.out.println("k value: " + k);
         memPool[k] = byte1;
         memPool[k + 1] = byte2;
 
-        for (int i = k + DATALENGTH; i < k + string.length; i++)
+        for (int i = 0; i < string.length; i++)
         {
-            memPool[i] = string[i - k];
+            memPool[i + k + DATALENGTH] = string[i];
         }
 
         freeblockList.moveToPosition(k);
@@ -102,7 +106,8 @@ public class MemPool
 
     /**
      * @param length
-     * @return
+     * @return returns the number corresponding to the best fit in the memory
+     *         pool
      */
     public int findBestFit(int length)
     {
@@ -120,41 +125,30 @@ public class MemPool
 
         for (int i = 0; i < freeblockList.size(); i++)
         {
-            System.out.println("entered for loop");
-            System.out.println("dll size in loop: " + freeblockList.size());
             int currDiff = freeblockList.getCurrentLength() - length;
-            System.out
-                .println("curr diff for iteration " + i + ": " + currDiff);
             // we change our best difference if the new one is closer to 0.
             if (0 <= currDiff && currDiff < bestDiff)
             {
-                System.out.println("entered if statement");
                 bestPos = freeblockList.getCurrentPosition();
                 bestDiff = currDiff;
-                System.out.println("best diff, best pos: " + bestDiff + ", "
-                    + bestPos);
             }
 
             // if our best difference is 0 then break the loop, we have found
             // the best position
             if (bestDiff == 0)
             {
-                System.out.println("if statement best pos: " + bestPos);
                 return bestPos;
             }
         }
-        System.out.println("current best pos: " + bestPos);
 
         // if we did not change the best position then there is no block large
         // enough so we have to increase the size and call the method again.
         if (bestPos == -1)
         {
-            System.out.println("if statement1: " + bestPos);
             increaseSize();
             bestPos = findBestFit(length);
         }
 
-        System.out.println("if statement2: " + bestPos);
         return bestPos;
     }
 
@@ -198,7 +192,6 @@ public class MemPool
     }
 
 
-    // ----------------------------------------------------------
     /**
      * merges the free blocks in the freeblock list.
      */
@@ -206,21 +199,19 @@ public class MemPool
     {
 
         freeblockList.moveToFront();
-        System.out.println("in merge. dll size: " + freeblockList.size());
         for (int i = 0; i < freeblockList.size(); i++)
         {
 
             if (freeblockList.getNext() == null)
             {
-                System.out.println("in merge. Next is null");
                 return;
             }
 
             // checks if the two freeblocks are adjacent, if they are it merges
 // them.
             if (freeblockList.getCurrentPosition()
-                + freeblockList.getCurrentLength() == (freeblockList
-                .getNext().getPosition()))
+                + freeblockList.getCurrentLength() == (freeblockList.getNext()
+                .getPosition()))
             {
 
                 freeblockList.setCurrentLength(freeblockList.getCurrentLength()
@@ -237,9 +228,20 @@ public class MemPool
     /**
      * @return returns the pool size
      */
-    public int getPoolSize()
+    public int getInitialPoolSize()
     {
         return initialPoolSize;
+    }
+
+
+    /**
+     * get the size of the memory pool
+     *
+     * @return returns the current size of the memory pool
+     */
+    public int getCurrentPoolSize()
+    {
+        return memPool.length;
     }
 
 }

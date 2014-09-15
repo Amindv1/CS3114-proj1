@@ -1,7 +1,6 @@
 package programs;
 
 import datastructures.MemPool;
-import datastructures.DoublyLinkedList;
 import datastructures.HashTable;
 
 /**
@@ -17,8 +16,6 @@ public class MemManager
     private HashTable        hashMapArtists;
     private HashTable        hashMapSongs;
     private MemPool          memPool;
-    private static int       initialPoolsize;
-    private static final int DATASTART = 3;
 
 
     /**
@@ -34,6 +31,16 @@ public class MemManager
         hashMapSongs = new HashTable(50, this);
     }
 
+    /**
+     * a constructor that also takes a tablesize
+     * @param poolsize the poolsize for the memory pool
+     * @param tablesize the hash table size
+     */
+    public MemManager(int poolsize, int tablesize) {
+        memPool = new MemPool(poolsize);
+        hashMapArtists = new HashTable(tablesize, this);
+        hashMapSongs = new HashTable(tablesize, this);
+    }
 
     /**
      * this method inserts the string into the memory pool and returns the
@@ -55,8 +62,9 @@ public class MemManager
 
     /**
      * removes the handle from the byte array
+     * @param theHandle the handle referencing the data to remove
      */
-    private void remove(Handle theHandle)
+    public void remove(Handle theHandle)
     {
         memPool.remove(theHandle);
     }
@@ -66,7 +74,7 @@ public class MemManager
      * takes the handle and returns the corresponding string
      *
      * @param h
-     * @return
+     * @return returns the byte array corresponding the handle
      */
     public byte[] getValue(Handle h)
     {
@@ -87,7 +95,8 @@ public class MemManager
 
 
     /**
-     *
+     * returns the hashtable of artists
+     * @return the hashtable of artists
      */
     public HashTable getHashTableArtists()
     {
@@ -96,7 +105,8 @@ public class MemManager
 
 
     /**
-    *
+    * returns the hashtable of songs
+    * @return the hashtable of songs
     */
     public HashTable getHashTableSongs()
     {
@@ -109,6 +119,6 @@ public class MemManager
      */
     public int getPoolSize()
     {
-        return memPool.getPoolSize();
+        return memPool.getCurrentPoolSize();
     }
 }

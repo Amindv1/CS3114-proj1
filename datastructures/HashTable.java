@@ -92,6 +92,8 @@ public class HashTable
             position = (int)hashString(string);
             hashMap[position] = handle;
             currSize++;
+            rehash();
+            return "added successfully";
         }
 
         // if the position is already taken but it isn't same value
@@ -108,11 +110,12 @@ public class HashTable
 
             hashMap[k] = handle;
             currSize++;
+            rehash();
+            return "position taken, added to probed position " + k + " successfully";
         } // if the position is already taken and is same value
 
         else if (hashMap[position] != null && hashMap[position].equals(handle))
         {
-            System.out.println("it exists ");
             return "The key already exists";
         }
 
@@ -129,7 +132,7 @@ public class HashTable
     private void rehash()
         throws Exception
     {
-        if (currSize >= size / 2)
+        if (currSize > size / 2)
         {
             size = (size * 2);
             Handle[] newMap = new Handle[size];
@@ -200,9 +203,8 @@ public class HashTable
     /**
      * this method returns the new index of the
      *
-     * @param home
-     *            the number we are looking for
      * @param stringToInsert
+     *            the string whose position we are looking for
      * @return returns the next null position that is available.
      * @throws Exception
      */
@@ -289,6 +291,7 @@ public class HashTable
 
         if (pos != -1)
         {
+            memoryManager.remove(hashMap[pos]);
             hashMap[pos] = new Handle(-1);
             currSize--;
             return true;
