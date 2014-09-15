@@ -28,20 +28,12 @@ public class MemPoolTest
     /**
      * tests the insert method
      */
-<<<<<<< HEAD
-    public void testInsert()
-    {
 
-        assertEquals(5, pool.getPoolSize());
-
-        assertEquals(1, pool.getLinkedList().size());
-=======
     public void testInsert() {
 
         assertEquals(5, pool.getInitialPoolSize());
 
         assertEquals(1,pool.getLinkedList().size());
->>>>>>> origin/master
         pool.getLinkedList().moveToFront();
         assertEquals(5, pool.getLinkedList().getCurrentLength());
 
@@ -66,13 +58,8 @@ public class MemPoolTest
 
         assertEquals(0, pool.insert("333".getBytes(), "333".length()));
 
-<<<<<<< HEAD
-        assertEquals(pool.getLinkedList().size(), 0);
-=======
-        assertEquals(0, pool.insert("333".getBytes(), "333".length()));
-
         assertEquals(pool.getLinkedList().size(), 0 );
->>>>>>> origin/master
+
     }
 
 
