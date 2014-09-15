@@ -14,7 +14,7 @@ public class HashTableTest extends student.TestCase
     private MemManager manager;
 
     public void setUp() {
-        manager = new MemManager(50);
+        manager = new MemManager(10, 5);
     }
 
     /**
@@ -25,9 +25,9 @@ public class HashTableTest extends student.TestCase
 
         assertEquals("added successfully", manager.getHashTableArtists().put("hellbarr"));
         assertEquals(1, manager.getHashTableArtists().currentSize());
-        assertEquals(50, manager.getHashTableArtists().size());
+        assertEquals(5, manager.getHashTableArtists().size());
 
-        assertEquals("position taken, added to probed position 0 successfully", manager.getHashTableArtists().put("barrhell"));
+        assertEquals("position taken, added to probed position 4 successfully", manager.getHashTableArtists().put("barrhell"));
         assertEquals(2, manager.getHashTableArtists().currentSize());
         assertEquals(5, manager.getHashTableArtists().size());
 
