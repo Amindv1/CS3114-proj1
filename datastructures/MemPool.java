@@ -1,5 +1,6 @@
 package datastructures;
 
+import java.util.Arrays;
 import programs.Handle;
 
 /**
@@ -59,9 +60,9 @@ public class MemPool
         memPool[k] = byte1;
         memPool[k + 1] = byte2;
 
-        for (int i = k + DATALENGTH; i < k + string.length; i++)
+        for (int i = 0; i < string.length; i++)
         {
-            memPool[i] = string[i - k];
+            memPool[i + k + DATALENGTH] = string[i];
         }
 
         freeblockList.moveToPosition(k);
@@ -177,6 +178,12 @@ public class MemPool
         System.out.println(str.substring(0, str.length() - 4));
     }
 
+    public byte[] getValue(Handle h)
+    {
+        return Arrays.copyOfRange(memPool,
+            h.getData() + DATALENGTH, (h.getData() + DATALENGTH) +
+            ((memPool[h.getData() + 1] & 0xFF) << 8) + memPool[h.getData()]);
+    }
 
     /**
      *
