@@ -21,6 +21,12 @@ public class MemManager
     private static final int DATASTART = 3;
 
 
+    /**
+     * creates a memory manager object
+     *
+     * @param poolsize
+     *            the poolsize for the memory pool
+     */
     public MemManager(int poolsize)
     {
         memPool = new MemPool(poolsize);
@@ -29,8 +35,16 @@ public class MemManager
     }
 
 
-    // Insert a record and return its position handle.
-    // space contains the record to be inserted, of length size.
+    /**
+     * this method inserts the string into the memory pool and returns the
+     * Corresponding position
+     *
+     * @param space
+     *            the string converted to a byte array
+     * @param size
+     *            the size of the string
+     * @return h the handle with the position that the string was stored
+     */
     public Handle insert(byte[] space, int size)
     {
         Handle h = new Handle(memPool.insert(space, size));
@@ -38,11 +52,13 @@ public class MemManager
     }
 
 
-    // Free a block at the position specified by theHandle.
-    // Merge adjacent free blocks.
+
+    /**
+     * removes the handle from the byte array
+     */
     private void remove(Handle theHandle)
     {
-        // TODO
+        memPool.remove(theHandle);
     }
 
 
@@ -60,6 +76,7 @@ public class MemManager
         return pool;
     }
 
+
     /**
      * prints out the freeblock list
      */
@@ -68,19 +85,24 @@ public class MemManager
         memPool.dump();
     }
 
+
     /**
      *
      */
-    public HashTable getHashTableArtists() {
+    public HashTable getHashTableArtists()
+    {
         return hashMapArtists;
     }
+
 
     /**
     *
     */
-   public HashTable getHashTableSongs() {
-       return hashMapSongs;
-   }
+    public HashTable getHashTableSongs()
+    {
+        return hashMapSongs;
+    }
+
 
     /**
      * gets the current poolsize

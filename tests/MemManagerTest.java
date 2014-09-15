@@ -20,13 +20,28 @@ public class MemManagerTest
         manager = new MemManager(10);
     }
 
-
     /**
      * tests the increase pool size method.
      */
     public void testIncreaseSize()
     {
         assertEquals(10, manager.getPoolSize());
+    }
+
+    /**
+     * tests the insert method
+     */
+    public void testInsert() {
+
+        assertEquals(0, manager.insert("hello".getBytes(), "hello".length()).getData());
+
+    }
+
+    /**
+     * tests the remove method
+     */
+    public void testRemove() {
+        //TODO
     }
 
 }

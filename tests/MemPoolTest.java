@@ -1,5 +1,7 @@
 package tests;
 
+import programs.Handle;
+import programs.MemManager;
 import datastructures.MemPool;
 
 /**
@@ -18,7 +20,7 @@ public class MemPoolTest extends student.TestCase
     private MemPool pool;
 
     public void setUp() {
-        pool = new MemPool(2);
+        pool = new MemPool(5);
     }
 
 
@@ -27,25 +29,49 @@ public class MemPoolTest extends student.TestCase
      */
     public void testInsert() {
 
-        assertEquals(2, pool.getPoolSize());
+//        assertEquals(5, pool.getPoolSize());
+//
+//        assertEquals(1,pool.getLinkedList().size());
+//        pool.getLinkedList().moveToFront();
+//        assertEquals(5, pool.getLinkedList().getCurrentLength());
+//
+//        assertEquals(0, pool.insert("hello".getBytes(), "hello".length()));
+//        pool.getLinkedList().moveToFront();
+//        assertEquals(7, pool.getLinkedList().getCurrentPosition());
+//        assertEquals(1, pool.getLinkedList().size());
+//        pool.getLinkedList().next();
+//        assertEquals(7, pool.getLinkedList().getCurrentPosition());
+//        assertEquals(3, pool.getLinkedList().getCurrentLength());
+//
+//        assertEquals(7, pool.insert("yoloswag".getBytes(), "yoloswag".length()));
 
-        assertEquals(1,pool.getLinkedList().size());
-        pool.getLinkedList().moveToFront();
-        assertEquals(2, pool.getLinkedList().getCurrentLength());
-
-        assertEquals(0, pool.insert("hello".getBytes(), "hello".length()));
-        pool.getLinkedList().moveToFront();
-        assertEquals(7, pool.getLinkedList().getCurrentPosition());
-        assertEquals(1, pool.getLinkedList().size());
-        pool.getLinkedList().next();
-        assertEquals(7, pool.getLinkedList().getCurrentPosition());
-        assertEquals(1, pool.getLinkedList().getCurrentLength());
-
-
-
-
-        assertEquals(7, pool.insert("yoloswag".getBytes(), "yoloswag".length()));
     }
 
+    /**
+     * tests insert method when the size is equal to the string length
+     */
+    public void testInsert2() {
 
+//        assertEquals(0, pool.insert("333".getBytes(), "333".length()));
+//
+//        assertEquals(pool.getLinkedList().size(), 0 );
+    }
+
+    /**
+     * tests the remove method
+     */
+    public void testRemove() {
+
+        Handle h = new Handle(pool.insert("hello".getBytes(), "hello".length()));
+
+        assertEquals(0, h.getData());
+        assertEquals(3, pool.getLinkedList().getCurrentLength());
+        assertEquals(7, pool.getLinkedList().getCurrentPosition());
+
+        pool.remove(h);
+
+        assertEquals(0, pool.getLinkedList().getCurrentPosition());
+        assertEquals(10, pool.getLinkedList().getCurrentLength());
+        assertEquals(1, pool.getLinkedList().size());
+    }
 }

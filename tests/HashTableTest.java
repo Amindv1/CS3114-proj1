@@ -1,23 +1,20 @@
 package tests;
 
 import programs.MemManager;
-import datastructures.HashTable;
 /**
  * // -------------------------------------------------------------------------
 /**
- *  This class tests the HashTable class.
+ *  This class tests the Hashmanager.getHashTableArtists() class.
  *
  *  @author Amin Davoodi (amind1)
  *  @version Sep 10, 2014
  */
 public class HashTableTest extends student.TestCase
 {
-    private HashTable table;
     private MemManager manager;
 
     public void setUp() {
         manager = new MemManager(50);
-        table = new HashTable(5, manager);
     }
 
     /**
@@ -26,45 +23,45 @@ public class HashTableTest extends student.TestCase
      */
     public void testPut() throws Exception {
 
-        assertEquals("added successfully", table.put("hellbarr"));
-        assertEquals(1, table.currentSize());
-        assertEquals(table.size(), 5);
+        assertEquals("added successfully", manager.getHashTableArtists().put("hellbarr"));
+        assertEquals(1, manager.getHashTableArtists().currentSize());
+        assertEquals(50, manager.getHashTableArtists().size());
 
-        assertEquals("position taken, added to probed position 0 successfully", table.put("barrhell"));
-        assertEquals(2, table.currentSize());
-        assertEquals(5, table.size());
+        assertEquals("position taken, added to probed position 0 successfully", manager.getHashTableArtists().put("barrhell"));
+        assertEquals(2, manager.getHashTableArtists().currentSize());
+        assertEquals(5, manager.getHashTableArtists().size());
 
-        assertEquals("The key already exists", table.put("hellbarr"));
-        assertEquals(2, table.currentSize());
-        assertEquals(5, table.size());
+        assertEquals("The key already exists", manager.getHashTableArtists().put("hellbarr"));
+        assertEquals(2, manager.getHashTableArtists().currentSize());
+        assertEquals(5, manager.getHashTableArtists().size());
 
-        assertEquals("added successfully", table.put("faz"));
-        assertEquals(3, table.currentSize());
-        assertEquals(10, table.size());
+        assertEquals("added successfully", manager.getHashTableArtists().put("faz"));
+        assertEquals(3, manager.getHashTableArtists().currentSize());
+        assertEquals(10, manager.getHashTableArtists().size());
 
-        assertEquals("added successfully", table.put("doloyoloholo"));
-        assertEquals(10, table.size());
-        assertEquals(4, table.currentSize());
+        assertEquals("added successfully", manager.getHashTableArtists().put("doloyoloholo"));
+        assertEquals(10, manager.getHashTableArtists().size());
+        assertEquals(4, manager.getHashTableArtists().currentSize());
 
-        assertEquals("position taken, added to probed position 9 successfully", table.put("holodoloyolo"));
-        assertEquals(10, table.size());
-        assertEquals(5, table.currentSize());
+        assertEquals("position taken, added to probed position 9 successfully", manager.getHashTableArtists().put("holodoloyolo"));
+        assertEquals(10, manager.getHashTableArtists().size());
+        assertEquals(5, manager.getHashTableArtists().currentSize());
 
-        assertEquals("added successfully", table.put("fat"));
-        assertEquals(20, table.size());
-        assertEquals(6, table.currentSize());
+        assertEquals("added successfully", manager.getHashTableArtists().put("fat"));
+        assertEquals(20, manager.getHashTableArtists().size());
+        assertEquals(6, manager.getHashTableArtists().currentSize());
 
-        assertEquals("The key already exists", table.put("fat"));
-        assertEquals(20, table.size());
-        assertEquals(6, table.currentSize());
+        assertEquals("The key already exists", manager.getHashTableArtists().put("fat"));
+        assertEquals(20, manager.getHashTableArtists().size());
+        assertEquals(6, manager.getHashTableArtists().currentSize());
 
-        assertEquals("position taken, added to probed position 9 successfully", table.put("yolodoloholo"));
-        assertEquals(20, table.size());
-        assertEquals(7, table.currentSize());
+        assertEquals("position taken, added to probed position 9 successfully", manager.getHashTableArtists().put("yolodoloholo"));
+        assertEquals(20, manager.getHashTableArtists().size());
+        assertEquals(7, manager.getHashTableArtists().currentSize());
 
-        assertEquals(9, table.searchAndReturnPosOfString("yolodoloholo"));
-        assertEquals(5, table.searchAndReturnPosOfString("holodoloyolo"));
-        assertEquals(5, table.searchAndReturnPosOfString("doloyoloholo"));
+        assertEquals(9, manager.getHashTableArtists().searchAndReturnPosOfString("yolodoloholo"));
+        assertEquals(5, manager.getHashTableArtists().searchAndReturnPosOfString("holodoloyolo"));
+        assertEquals(5, manager.getHashTableArtists().searchAndReturnPosOfString("doloyoloholo"));
 
     }
 
@@ -73,15 +70,15 @@ public class HashTableTest extends student.TestCase
      * @throws Exception
      */
     public void testGet() throws Exception {
-        table.put("hello");
-        assertNull(table.get("heo"));
+        manager.getHashTableArtists().put("hello");
+        assertNull(manager.getHashTableArtists().get("heo"));
 
-        assertEquals(1, table.get("hello").getData());
+        assertEquals(1, manager.getHashTableArtists().get("hello").getData());
 
-        table.put("yoloswag");
-        assertEquals(40, table.get("yoloswag").getData());
+        manager.getHashTableArtists().put("yoloswag");
+        assertEquals(40, manager.getHashTableArtists().get("yoloswag").getData());
 
-        assertNull(table.get("swagger"));
+        assertNull(manager.getHashTableArtists().get("swagger"));
     }
 
     /**
@@ -89,12 +86,12 @@ public class HashTableTest extends student.TestCase
      * @throws Exception
      */
     public void testRemove() throws Exception {
-        table.put("woop");
-        assertEquals(1, table.get("woop").getData());
-        assertTrue(table.remove("woop"));
+        manager.getHashTableArtists().put("woop");
+        assertEquals(1, manager.getHashTableArtists().get("woop").getData());
+        assertTrue(manager.getHashTableArtists().remove("woop"));
 
-        assertFalse(table.remove("woop"));
-        assertEquals(0, table.currentSize());
+        assertFalse(manager.getHashTableArtists().remove("woop"));
+        assertEquals(0, manager.getHashTableArtists().currentSize());
     }
 
     /**

@@ -1,6 +1,8 @@
 package tests;
+
 import datastructures.DoublyLinkedList;
 import student.TestCase;
+
 /**
  * Tests for the {@link DoublyLinkedList} class.
  *
@@ -15,7 +17,8 @@ public class DoublyLinkedListTest
 {
     // ~ Instance/static variables .............................................
 
-    private DoublyLinkedList<String> list;
+    private DoublyLinkedList list;
+
 
     /**
      * Create a new test class
@@ -27,27 +30,15 @@ public class DoublyLinkedListTest
         // Per-test initialization should be placed in setUp() instead.
     }
 
+
     /**
      * Creates two brand new, empty sets for each test method.
      */
     public void setUp()
     {
-        list = new DoublyLinkedList<String>();
+        list = new DoublyLinkedList();
     }
 
-
-    /**
-     * tests tostring
-     */
-    public void testToString()
-    {
-        assertEquals(list.toString(), "[]");
-        list.addAtFront("hello");
-        assertEquals(list.toString(), "[hello]");
-        list.addAtFront("hi");
-        assertEquals(list.toString(), "[hi, hello]");
-
-    }
 
     /**
      * tests clear
@@ -57,97 +48,185 @@ public class DoublyLinkedListTest
         assertEquals(list.size(), 0);
         list.clear();
         assertEquals(list.size(), 0);
-        list.addAtFront("hello");
-        list.addAtFront("hello");
+        list.add(5, 5);
+        list.add(5, 5);
         list.clear();
         assertEquals(list.size(), 0);
     }
 
 
-    // ----------------------------------------------------------
     /**
      * tests size method
      */
     public void testSize()
     {
         assertEquals(list.size(), 0);
-        list.addAtFront("hello");
+        list.add(5, 5);
         assertEquals(list.size(), 1);
     }
 
 
-    // ----------------------------------------------------------
     /**
-     * tests rearItem
+     * tests move to front method
      */
-    public void testRearItem()
+    public void testMoveToFront()
     {
-        list.addAtFront("hello");
-        list.addAtFront("hi");
-        assertEquals(list.rearItem(), "hello");
-    }
+        list.add(1, 7);
+        list.add(2, 1);
+        list.add(3, 1);
+        list.add(4, 7);
 
+        assertEquals(4, list.getCurrentPosition());
+        list.moveToFront();
+        assertEquals(1, list.getCurrentPosition());
+        list.add(0, 2);
 
-    // ----------------------------------------------------------
-    /**
-     * tests front item
-     */
-    public void testFrontItem()
-    {
-        list.addAtFront("hello");
-        list.addAtFront("hi");
-        assertEquals(list.frontItem(), "hi");
-    }
+        list.moveToFront();
 
-
-    /**
-     * tests deququ
-     */
-    public void testremoveAtRear()
-    {
-        list.addAtFront("hello");
-        list.addAtFront("hi");
-        assertEquals(list.removeAtRear(), "hello");
-        assertEquals(list.size(), 1);
-    }
-
-
-    // ----------------------------------------------------------
-    /**
-     * tests dequque
-     */
-    public void testremoveAtFront()
-    {
-        list.addAtFront("hello");
-        list.addAtFront("hi");
-        assertEquals(list.removeAtFront(), "hi");
-        assertEquals(list.size(), 1);
-    }
-
-
-    // ----------------------------------------------------------
-    /**
-     * tests addAtFront
-     */
-    public void testaddAtFront()
-    {
-        list.addAtFront("hello");
-        assertEquals(list.toString(), "[hello]");
-        assertEquals(list.size(), 1);
-        list.addAtFront("hi");
-        assertEquals(list.toString(), "[hi, hello]");
+        assertEquals(0, list.getCurrentPosition());
     }
 
 
     /**
-     * tests addAtFront
+     * tests add method
      */
-    public void testaddAtRear()
+    public void testAdd()
     {
-        list.addAtRear("hello");
-        assertEquals(list.size(), 1);
-        assertEquals(list.toString(), "[hello]");
-        list.addAtRear("hi");
-        assertEquals(list.toString(), "[hello, hi]");
+        list.add(2, 2);
+        assertEquals(2, list.getCurrentPosition());
+        list.add(1, 2);
+        assertEquals(1, list.getCurrentPosition());
+        list.add(8, 2);
+        assertEquals(8, list.getCurrentPosition());
+        list.add(3, 2);
+        assertEquals(3, list.getCurrentPosition());
+        list.add(0, 2);
+        assertEquals(0, list.getCurrentPosition());
+
+        list.moveToFront();
+
+        assertEquals(0, list.getCurrentPosition());
+        list.next();
+        assertEquals(1, list.getCurrentPosition());
+        list.next();
+        assertEquals(2, list.getCurrentPosition());
+        list.next();
+        assertEquals(3, list.getCurrentPosition());
+        list.next();
+        assertEquals(8, list.getCurrentPosition());
+
+        assertEquals(5, list.size());
     }
+
+
+    /**
+     * tests the move to position method
+     */
+    public void testMoveToPosition()
+    {
+        list.add(1, 7);
+        list.add(2, 1);
+        list.add(8, 1);
+        list.add(4, 7);
+
+        assertTrue(list.moveToPosition(8));
+        assertEquals(8, list.getCurrentPosition());
+        assertEquals(1, list.getCurrentLength());
+
+        assertTrue(list.moveToPosition(1));
+        assertEquals(1, list.getCurrentPosition());
+        assertEquals(7, list.getCurrentLength());
+
+        assertFalse(list.moveToPosition(9));
+        assertFalse(list.moveToPosition(3));
+    }
+
+
+    /**
+     * tests the removeCurrent method
+     */
+    public void testRemoveCurrent()
+    {
+        list.add(1, 7);
+        list.add(2, 1);
+        list.add(3, 1);
+        list.add(4, 7);
+
+        list.removeCurrent();
+        assertEquals(3, list.size());
+        assertFalse(list.moveToPosition(4));
+    }
+
+
+    /**
+     * tests the next method
+     */
+    public void testNext()
+    {
+        list.add(1, 1);
+        list.add(2, 2);
+
+        list.moveToFront();
+
+        assertEquals(1, list.getCurrentPosition());
+        list.next();
+        assertEquals(2, list.getCurrentPosition());
+    }
+
+
+    /**
+     * tests the previous method
+     */
+    public void testPrevious()
+    {
+
+        list.add(1, 1);
+        list.add(2, 2);
+
+        assertEquals(2, list.getCurrentPosition());
+        list.previous();
+        assertEquals(1, list.getCurrentPosition());
+    }
+
+
+    /**
+     * tests the getNext method
+     */
+    public void testGetNext()
+    {
+        list.add(1, 1);
+        list.add(2, 2);
+
+        list.moveToFront();
+
+        assertEquals(1, list.getCurrentPosition());
+        assertEquals(2, list.getNext().getPosition());
+    }
+
+
+    /**
+     * tests the get current and set current position methods
+     */
+    public void testGetCurrentAndSetCurrentPosition()
+    {
+
+        list.add(1, 1);
+        list.setCurrentPosition(2);
+
+        assertEquals(2, list.getCurrentPosition());
+    }
+
+
+    /**
+     * tests the get current and set current length methods
+     */
+    public void testGetCurrentAndSetCurrentLength()
+    {
+
+        list.add(1, 1);
+
+        list.setCurrentLength(2);
+        assertEquals(2, list.getCurrentLength());
+    }
+
 }

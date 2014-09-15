@@ -2,43 +2,42 @@ package datastructures;
 
 import java.util.NoSuchElementException;
 
-
 /**
  * // -------------------------------------------------------------------------
-/**
- *  This is the linked list used to store the free blocks in the memory
- *  @param <T>
+ * /** This is the linked list used to store the free blocks in the memory
  *
- *  @author Amin Davoodi (amind1)
- *  @version Sep 4, 2014
+ * @author Amin Davoodi (amind1)
+ * @version Sep 4, 2014
  */
-public class DoublyLinkedList<T>
+public class DoublyLinkedList
 {
-    private Node<T> head;
-    private Node<T> tail;
-    private Node<T> current;
-    private int     size;
+    private Node head;
+    private Node tail;
+    private Node current;
+    private int  size;
+
 
     /**
      * Construct the stack.
      */
     public DoublyLinkedList()
     {
-        head = new Node<T>(null, null);
-        tail = new Node<T>(null, null);
-        current = new Node<T>(null, null);
+        head = new Node();
+        tail = new Node();
+        current = new Node();
         size = 0;
 
         head.join(tail);
     }
 
+
     /**
-     * returns the data at the current location, throws an exception if the node
-     * is null.
+     * returns the data at the current location, throws an exception if the list
+     * is empty.
      *
      * @return the data of the current node
      */
-    public T getCurrentLength()
+    public int getCurrentLength()
     {
         if (size != 0)
         {
@@ -50,13 +49,14 @@ public class DoublyLinkedList<T>
         }
     }
 
+
     /**
-     * returns the data at the current location, throws an exception if the node
-     * is null.
+     * returns the data at the current location, throws an exception if the list
+     * is empty.
      *
      * @return the data of the current node
      */
-    public T getCurrentPosition()
+    public int getCurrentPosition()
     {
         if (size != 0)
         {
@@ -68,44 +68,83 @@ public class DoublyLinkedList<T>
         }
     }
 
-    public void setCurrentLength(T length) {
-        current.setLength(length);
+
+    /**
+     * sets the length of the current node. throws an exception if the list
+     * is empty.
+     *
+     * @param length
+     *            the length to set it to
+     */
+    public void setCurrentLength(int length)
+    {
+        if (size != 0)
+        {
+            current.setLength(length);
+        }
+        else
+        {
+            throw new NoSuchElementException("The list is empty");
+        }
+
     }
 
-    public void setCurrentPosition(T position) {
-        current.setPosition(position);
+
+    /**
+     * sets the position of the current node. throws an exception if the list
+     * is empty.
+     *
+     * @param position
+     *            the position to set it to
+     */
+    public void setCurrentPosition(int position)
+    {
+        if (size != 0)
+        {
+            current.setPosition(position);
+        }
+        else
+        {
+            throw new NoSuchElementException("The list is empty");
+        }
+
     }
+
 
     /**
      * moves to the beginning of the linked list
      */
-    public void moveToFront() {
-        if (size != 0) {
+    public void moveToFront()
+    {
+        if (size != 0)
+        {
             current = head.next();
         }
     }
 
+
     /**
      * moves to the next node in the list
      */
-    public Node next() {
-        if (current.next() != tail) {
+    public void next()
+    {
+        if (current.next() != tail)
+        {
             current = current.next();
-            return current;
         }
 
-        return null;
     }
+
 
     /**
      * moves to the previous node in the list
      */
-    public Node previous() {
-        if (current.previous() != head) {
+    public void previous()
+    {
+        if (current.previous() != head)
+        {
             current = current.previous();
-            return current;
         }
-        return null;
     }
 
 
@@ -113,13 +152,15 @@ public class DoublyLinkedList<T>
      * adds an item right before the current item and sets the current item
      * equal to the item added.
      *
-     * @param item
-     *            the data being added to the list
+     * @param position
+     *            the position of the new node
+     * @param length
+     *            the length of the new node
      */
-    public void add(T position, T length)
+    public void add(int position, int length)
     {
 
-        Node<T> node = new Node<T>(position, length);
+        Node node = new Node(position, length);
         // if it is the first item in the list, it sets the current item to the
         // new item
         if (size == 0)
@@ -131,22 +172,21 @@ public class DoublyLinkedList<T>
             return;
         }
 
-        //this loop makes sure that everything that is added to the
-        //doubly linked list is sorted by position
+        // this loop makes sure that everything that is added to the
+        // doubly linked list is sorted by position
         moveToFront();
-        if(current == null) System.out.println("curr null");
-        if(current != null) System.out.println("curr not null");
-
-        while( current != null && (int)(current.getPosition()) < (int)position) {
+        while (current != null && (current.getPosition()) < position)
+        {
 
             current = current.next();
 
-            if (current.next() == null) {
+            if (current.next() == null)
+            {
                 break;
             }
         }
 
-        Node<T> previous = current.previous();
+        Node previous = current.previous();
         previous.split();
         node.join(current);
         previous.join(node);
@@ -155,36 +195,47 @@ public class DoublyLinkedList<T>
         size++;
     }
 
-    public Node getNext() {
 
-        if (current.next() != null) {
+    /**
+     * gets the next node
+     *
+     * @return the next node
+     */
+    public Node getNext()
+    {
+
+        if (current.next() != null)
+        {
             return current.next();
         }
 
         return null;
     }
 
-    /**
-     *
-     */
-    public boolean moveToPosition(T position) {
 
-        if (position == null) {
-            return false;
-        }
+    /**
+     * @param position
+     * @return true if the node with the corresponding position exists
+     *         false otherwise
+     */
+    public boolean moveToPosition(int position)
+    {
 
         moveToFront();
 
-        while((int) position > (int)current.getPosition()) {
+        while (position > current.getPosition())
+        {
 
-                current = current.next();
+            current = current.next();
 
-                if(current == tail) {
-                    return false;
-                }
+            if (current == tail)
+            {
+                return false;
+            }
         }
 
-        if (position == current.getPosition()) {
+        if (position == current.getPosition())
+        {
             return true;
         }
 
@@ -198,7 +249,7 @@ public class DoublyLinkedList<T>
      *
      * @return returns the data of the node removed.
      */
-    public Node removeCurrent()
+    public void removeCurrent()
     {
         if (size == 0)
         {
@@ -206,87 +257,16 @@ public class DoublyLinkedList<T>
                 "The list is empty, there is nothing to remove.");
         }
 
-        Node<T> previous = current.previous();
-        Node<T> next = current.next();
-        Node<T> oldCurrent = current;
+        Node previous = current.previous();
+        Node next = current.next();
         current.split();
         previous.split();
         previous.join(next);
-        current = next;
+        current = previous;
 
         size--;
-        return oldCurrent;
     }
 
-    /**
-     * Insert a new item at the rear (the tail) of the deque.
-     *
-     * @param value
-     *            the item to insert.
-     * @postcondition [new-contents] == [old-contents] * [value]
-     */
-    public void addAtRear(T position, T length)
-    {
-        Node<T> node = new Node<T>(position, length);
-        Node<T> newNode = tail.previous();
-        newNode.split();
-        newNode.join(node);
-        node.join(tail);
-
-        current = node;
-        size++;
-    }
-
-    /**
-     * Remove the item at the rear (the tail) of the deque.
-     *
-     * @return The item that was removed
-     * @precondition |[old-contents]| > 0
-     * @postcondition [old-contents] = [new-contents] * [result]
-     */
-    public Node removeAtRear()
-    {
-        Node<T> node = (tail.previous().previous());
-        Node<T> newNode = node.split();
-        newNode.split();
-        node.join(tail);
-        size--;
-        return newNode;
-    }
-
-    /**
-     * Insert a new item at the front (the head) of the deque.
-     *
-     * @param value
-     *            the item to insert.
-     * @postcondition [new-contents] = [value] * [old-contents]
-     */
-    public void addAtFront(T position, T length)
-    {
-        Node<T> node = new Node<T>(position, length);
-        node.join(head.split());
-        head.join(node);
-
-        current = node;
-        size++;
-    }
-
-    /**
-     * Remove the item at the front (the head) of the deque.
-     *
-     * @return The item that was removed
-     * @precondition |[old-contents]| > 0
-     * @postcondition [old-contents] == [result] * [new-contents]
-     */
-    public Node removeAtFront()
-    {
-        Node<T> node = head.split();
-        Node<T> newNode = node.next();
-        node.split();
-        head.join(newNode);
-        size--;
-        return node;
-    }
 
     /**
      * Get the number of items in this deque. Does not alter the deque.
@@ -298,6 +278,7 @@ public class DoublyLinkedList<T>
     {
         return size;
     }
+
 
     /**
      * Empty the deque.
@@ -311,6 +292,7 @@ public class DoublyLinkedList<T>
         head.join(tail);
         size = 0;
     }
+
 
     /**
      * Returns a string representation of this deque. A deque's string
@@ -328,7 +310,7 @@ public class DoublyLinkedList<T>
      */
     public String toString()
     {
-        Node<T> temp = head.next();
+        Node temp = head.next();
         String str = "[";
         for (int i = 0; i < size; i++)
         {
@@ -343,23 +325,23 @@ public class DoublyLinkedList<T>
     }
 }
 
-//On my honor:
+// On my honor:
 //
-//- I have not used source code obtained from another student,
-//or any other unauthorized source, either modified or
-//unmodified.
+// - I have not used source code obtained from another student,
+// or any other unauthorized source, either modified or
+// unmodified.
 //
-//- All source code and documentation used in my program is
-//either my original work, or was derived by me from the
-//source code published in the textbook for this course.
+// - All source code and documentation used in my program is
+// either my original work, or was derived by me from the
+// source code published in the textbook for this course.
 //
-//- I have not discussed coding details about this project with
-//anyone other than my partner (in the case of a joint
-//submission), instructor, ACM/UPE tutors or the TAs assigned
-//to this course. I understand that I may discuss the concepts
-//of this program with other students, and that another student
-//may help me debug my program so long as neither of us writes
-//anything during the discussion or modifies any computer file
-//during the discussion. I have violated neither the spirit nor
-//letter of this restriction.
+// - I have not discussed coding details about this project with
+// anyone other than my partner (in the case of a joint
+// submission), instructor, ACM/UPE tutors or the TAs assigned
+// to this course. I understand that I may discuss the concepts
+// of this program with other students, and that another student
+// may help me debug my program so long as neither of us writes
+// anything during the discussion or modifies any computer file
+// during the discussion. I have violated neither the spirit nor
+// letter of this restriction.
 
