@@ -1,8 +1,3 @@
-package datastructures;
-
-import programs.MemManager;
-import programs.Handle;
-
 /**
  * // -------------------------------------------------------------------------
  * /** This is the implementation of the hash table data structure.
@@ -24,13 +19,13 @@ public class HashTable
      *
      * @param size
      *            the size of the table
-     * @param manager
+     * @param memManager
      */
-    public HashTable(int size, MemManager manager)
+    public HashTable(int size, MemManager memManager)
     {
         this.size = size;
         hashMap = new Handle[size];
-        memoryManager = manager;
+        memoryManager = memManager;
     }
 
 
@@ -40,7 +35,7 @@ public class HashTable
      * @param key
      *            the string to be hashed
      */
-    private long hashString(String key)
+    public long hashString(String key)
     {
 
         String keyString = key;
@@ -78,51 +73,63 @@ public class HashTable
      * @return returns the statement corresponding to the situation
      * @throws Exception
      */
-    public String put(String string)
+    public boolean put(String string)
         throws Exception
     {
 
         int position = (int)hashString(string);
-        Handle handle =
-            memoryManager.insert(string.getBytes(), string.length());
 
         // if there is nothing in the position
         if (hashMap[position] == null)
         {
-            position = (int)hashString(string);
+            Handle handle =
+                memoryManager.insert(string.getBytes(), string.length());
             hashMap[position] = handle;
             currSize++;
             rehash();
-            return "added successfully";
+            return true;
         }
 
         // if the position is already taken but it isn't same value
-        else if (hashMap[position] != null && !hashMap[position].equals(handle))
+        else if (hashMap[position] != null && !(getStringFromBytes(hashMap[position]).equals(string)))
         {
 
             // if the probe method finds the string inside it then return
             // that the string already exists
-            int k = searchAndReturnBestPosToPlace(string);
+            int k = searchAndReturnBestPosToPlace(string, size);
             if (k == -1)
             {
-                return "The key already exists";
+                return false;
             }
-
+            Handle handle =
+                memoryManager.insert(string.getBytes(), string.length());
             hashMap[k] = handle;
             currSize++;
             rehash();
-            return "position taken, added to probed position " + k + " successfully";
-        } // if the position is already taken and is same value
-
-        else if (hashMap[position] != null && hashMap[position].equals(handle))
+            return true;
+        }
+        // if the position is already taken and is same value
+        else if (hashMap[position] != null && (getStringFromBytes(hashMap[position]).equals(string)))
         {
-            return "The key already exists";
+            return false;
         }
 
-        rehash();
-        return "added successfully";
+        return false;
+
+
     }
 
+    public void print() throws Exception {
+
+        for(int i = 0; i < size; i++) {
+
+            String s = getStringFromBytes(hashMap[i]);
+
+            if (s != null && hashMap[i].getData() != -1 && hashMap[i] != null) {
+                System.out.println("|" + s + "| " + i);
+            }
+        }
+    }
 
     /**
      * re-hash's the entire array when we try to add over half the size
@@ -134,21 +141,24 @@ public class HashTable
     {
         if (currSize > size / 2)
         {
-            size = (size * 2);
-            Handle[] newMap = new Handle[size];
-            for (int i = 0; i < size / 2; i++)
+            Handle[] temp = new Handle[size];
+            for (int i = 0; i < hashMap.length; i++) {
+                temp[i] = hashMap[i];
+            }
+
+            hashMap = new Handle[size *= 2];
+
+            for (int i = 0; i < size/2; i++)
             {
-                if (hashMap[i] != null)
+                if (temp[i] != null)
                 {
 
-                    String str = getStringFromBytes(hashMap[i]);
+                    String str = getStringFromBytes(temp[i]);
 
-                    int newpos = searchAndReturnBestPosToPlace(str);
-                    newMap[newpos] = hashMap[i];
+                    int newpos = searchAndReturnBestPosToPlace(str, size);
+                    hashMap[newpos] = temp[i];
                 }
             }
-            hashMap = newMap;
-
         }
     }
 
@@ -165,7 +175,7 @@ public class HashTable
         throws Exception
     {
         // if the handle is a toumbstone then we don't want to return null
-        if (h.getData() == -1)
+        if (h == null || h.getData() == -1)
         {
             return null;
         }
@@ -208,7 +218,7 @@ public class HashTable
      * @return returns the next null position that is available.
      * @throws Exception
      */
-    public int searchAndReturnBestPosToPlace(String stringToInsert)
+    public int searchAndReturnBestPosToPlace(String stringToInsert, int size)
         throws Exception
     {
         int home = (int)hashString(stringToInsert);
@@ -228,14 +238,14 @@ public class HashTable
             }
 
             // a duplicate of the string was found return -1
-            if (str == stringToInsert)
+            if (str.equals(stringToInsert))
             {
                 return -1;
             }
 
             pos = home;
             pos += i * i;
-            pos = pos % size;
+            pos = (pos % size);
 
             // we ended up in the same location so that means that we did not
             // hit a null location and our array is full of toumbstones.
@@ -246,6 +256,8 @@ public class HashTable
                 return bestPos;
             }
         }
+
+        bestPos = pos;
 
         if (tombstoneIdx != -1)
         {
@@ -317,11 +329,11 @@ public class HashTable
         int position = (int)hashString(key);
         int home = position;
 
-        if (hashMap[position] == null)
+        if (getStringFromBytes(hashMap[position]) == null)
         {
             return -1;
         }
-        else if (getStringFromBytes(hashMap[position]) == key)
+        else if (getStringFromBytes(hashMap[position]).equals(key))
         {
             return position;
         }
@@ -336,7 +348,7 @@ public class HashTable
                 {
                     return -1;
                 }
-                if (getStringFromBytes(hashMap[position]) == key)
+                if (getStringFromBytes(hashMap[position]).equals(key))
                 {
                     return position;
                 }

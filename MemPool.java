@@ -1,8 +1,4 @@
-package datastructures;
-
 import java.util.Arrays;
-import programs.Handle;
-
 /**
  * // -------------------------------------------------------------------------
  * /** Write a one-sentence summary of your class here. Follow it with
@@ -58,8 +54,8 @@ public class MemPool
         int k = findBestFit(size + DATALENGTH);
 
         // get the byte representation of the size
-        byte byte1 = (byte)(size & 0xF);
-        byte byte2 = (byte)((size >> 8) & 0xF);
+        byte byte1 = (byte)(size & 0xFF);
+        byte byte2 = (byte)((size >> 8) & 0xFF);
 
         memPool[k] = byte1;
         memPool[k + 1] = byte2;
@@ -122,8 +118,6 @@ public class MemPool
             bestPos = findBestFit(length);
         }
 
-        System.out.println("dll size: " + freeblockList.size());
-
         for (int i = 0; i < freeblockList.size(); i++)
         {
             int currDiff = freeblockList.getCurrentLength() - length;
@@ -140,6 +134,8 @@ public class MemPool
             {
                 return bestPos;
             }
+
+            freeblockList.next();
         }
 
         // if we did not change the best position then there is no block large
@@ -164,7 +160,7 @@ public class MemPool
         for (int i = 0; i < freeblockList.size(); i++)
         {
             str +=
-                "(" + freeblockList.getCurrentPosition() + ", "
+                "(" + freeblockList.getCurrentPosition() + ","
                     + freeblockList.getCurrentLength() + ") -> ";
             freeblockList.next();
         }
@@ -206,27 +202,18 @@ public class MemPool
     {
 
         freeblockList.moveToFront();
-        for (int i = 0; i < freeblockList.size(); i++)
+        for (int i = 1; i < freeblockList.size(); i++)
         {
+            int end = freeblockList.getCurrentPosition() +
+                freeblockList.getCurrentLength();
 
-            if (freeblockList.getNext() == null)
+            freeblockList.next();
+            if (end == freeblockList.getCurrentPosition())
             {
-                return;
-            }
-
-            // checks if the two freeblocks are adjacent, if they are it merges
-// them.
-            if (freeblockList.getCurrentPosition()
-                + freeblockList.getCurrentLength() == (freeblockList.getNext()
-                .getPosition()))
-            {
-
-                freeblockList.setCurrentLength(freeblockList.getCurrentLength()
-                    + freeblockList.getNext().getLength());
-
-                freeblockList.next();
+                int len = freeblockList.getCurrentLength();
                 freeblockList.removeCurrent();
-
+                freeblockList.setCurrentLength(freeblockList.getCurrentLength()
+                    + len);
             }
         }
     }

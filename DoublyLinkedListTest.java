@@ -1,35 +1,15 @@
-package tests;
-
-import datastructures.DoublyLinkedList;
-import student.TestCase;
-
 /**
  * Tests for the {@link DoublyLinkedList} class.
  *
- * @author Stephen Edwards and Tony Allevatos
  * @author Mohammed Amin Davoodi (amind1)
- * @author Thomas Lazor (tjlazor)
- * @author Mary-Wynn Rogers (marywynn)
  * @version (2013.10.24)
  */
 public class DoublyLinkedListTest
-    extends TestCase
+    extends student.TestCase
 {
     // ~ Instance/static variables .............................................
 
     private DoublyLinkedList list;
-
-
-    /**
-     * Create a new test class
-     */
-    public DoublyLinkedListTest()
-    {
-        // The constructor is usually empty in unit tests, since it runs
-        // once for the whole class, not once for each test method.
-        // Per-test initialization should be placed in setUp() instead.
-    }
-
 
     /**
      * Creates two brand new, empty sets for each test method.

@@ -1,8 +1,3 @@
-package tests;
-
-import programs.Handle;
-import datastructures.MemPool;
-
 /**
  * // -------------------------------------------------------------------------
  * /** Write a one-sentence summary of your class here. Follow it with
@@ -115,5 +110,37 @@ public class MemPoolTest
         assertEquals('l', arr[2]);
         assertEquals('l', arr[3]);
         assertEquals('o', arr[4]);
+    }
+
+    /**
+     * tests find best fit method
+     */
+    public void testFindBestFit() {
+
+        assertEquals(5, pool.getCurrentPoolSize());
+
+        Handle h1 = new Handle(pool.insert("fat".getBytes(), "fat".length()));
+        Handle h2 = new Handle(pool.insert("yolo".getBytes(), "yolo".length()));
+        Handle h3 = new Handle(pool.insert("yolewqeo".getBytes(), "yolewqeo".length()));
+        Handle h4 = new Handle(pool.insert("yolasdo".getBytes(), "yolasdo".length()));
+        Handle h5 = new Handle(pool.insert("yolaklsndklnado".getBytes(), "yolaklsndklnado".length()));
+
+        assertEquals(1, pool.getLinkedList().size());
+        assertEquals(50, pool.getCurrentPoolSize());
+
+        pool.remove(h1);
+        assertEquals(2, pool.getLinkedList().size());
+        pool.getLinkedList().moveToFront();
+        assertEquals(0, pool.getLinkedList().getCurrentPosition());
+        assertEquals(5, pool.getLinkedList().getCurrentLength());
+
+        pool.getLinkedList().next();
+        assertEquals(47, pool.getLinkedList().getCurrentPosition());
+        assertEquals(3, pool.getLinkedList().getCurrentLength());
+
+        pool.insert("fat".getBytes(), "fat".length());
+        assertEquals(1, pool.getLinkedList().size());
+        assertEquals(50, pool.getCurrentPoolSize());
+
     }
 }

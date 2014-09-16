@@ -1,6 +1,3 @@
-package datastructures;
-
-// -------------------------------------------------------------------------
 /**
  * A "node" represents a single element in a sequence. Think of it like a link
  * in a chain -- the node contains an element of data and a reference to the
@@ -9,9 +6,7 @@ package datastructures;
  * The join and split methods manage both connections simultaneously to ensure
  * that the consistency of links in the chain is preserved at all times.
  *
- * @param the
- *            element type stored in the node
- * @author Tony Allevato
+ * @author Amin Davoodi
  * @version 2012.10.22
  */
 public class Node

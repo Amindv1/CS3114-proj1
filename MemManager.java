@@ -1,8 +1,3 @@
-package programs;
-
-import datastructures.MemPool;
-import datastructures.HashTable;
-
 /**
  * This class takes in inputs and adds them into the memory pool. It maintains
  * the size and locations of the entries through the doubly linked list, hashmap
@@ -18,18 +13,18 @@ public class MemManager
     private MemPool          memPool;
 
 
-    /**
-     * creates a memory manager object
-     *
-     * @param poolsize
-     *            the poolsize for the memory pool
-     */
-    public MemManager(int poolsize)
-    {
-        memPool = new MemPool(poolsize);
-        hashMapArtists = new HashTable(50, this);
-        hashMapSongs = new HashTable(50, this);
-    }
+//    /**
+//     * creates a memory manager object
+//     *
+//     * @param poolsize
+//     *            the poolsize for the memory pool
+//     */
+//    public MemManager(int poolsize)
+//    {
+//        memPool = new MemPool(poolsize);
+//        hashMapArtists = new HashTable(50, this);
+//        hashMapSongs = new HashTable(50, this);
+//    }
 
     /**
      * a constructor that also takes a tablesize
@@ -78,10 +73,7 @@ public class MemManager
      */
     public byte[] getValue(Handle h)
     {
-        byte[] pool = new byte[5];
-        int startPos = h.getData();
-
-        return pool;
+        return memPool.getValue(h);
     }
 
 
