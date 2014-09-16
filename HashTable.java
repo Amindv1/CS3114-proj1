@@ -80,8 +80,10 @@ public class HashTable
         int position = (int)hashString(string);
 
         // if there is nothing in the position
-        if (hashMap[position] == null)
+        if (getStringFromBytes(hashMap[position]) == null)
         {
+            position = searchAndReturnBestPosToPlace(string, size);
+
             Handle handle =
                 memoryManager.insert(string.getBytes(), string.length());
             hashMap[position] = handle;
@@ -91,7 +93,7 @@ public class HashTable
         }
 
         // if the position is already taken but it isn't same value
-        else if (hashMap[position] != null && !(getStringFromBytes(hashMap[position]).equals(string)))
+        if (getStringFromBytes(hashMap[position]) != null && !(getStringFromBytes(hashMap[position]).equals(string)))
         {
 
             // if the probe method finds the string inside it then return
@@ -109,7 +111,7 @@ public class HashTable
             return true;
         }
         // if the position is already taken and is same value
-        else if (hashMap[position] != null && (getStringFromBytes(hashMap[position]).equals(string)))
+        else if (getStringFromBytes(hashMap[position]) != null && (getStringFromBytes(hashMap[position]).equals(string)))
         {
             return false;
         }
@@ -226,7 +228,7 @@ public class HashTable
         int bestPos = home;
         int tombstoneIdx = -1;
 
-        for (int i = 1; hashMap[pos] != null; i++)
+        for (int i = 1; getStringFromBytes(hashMap[pos]) != null; i++)
         {
 
             String str = getStringFromBytes(hashMap[pos]);

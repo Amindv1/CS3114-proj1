@@ -89,6 +89,9 @@ public class HashTableTest extends student.TestCase
 
         assertFalse(manager.getHashTableArtists().remove("woop"));
         assertEquals(0, manager.getHashTableArtists().currentSize());
+
+        manager.getHashTableArtists().put("woop");
+        assertEquals(0, manager.getHashTableArtists().get("woop").getData());
     }
 
 }
