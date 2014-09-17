@@ -77,8 +77,8 @@ public class HashTable
 
         hashMap[pos] = memoryManager.insert(str.getBytes(), str.length());
 
-        currSize++;
         rehash();
+        currSize++;
         return true;
     }
 
@@ -108,9 +108,10 @@ public class HashTable
     private void rehash()
         throws Exception
     {
-        if (currSize > size / 2)
+        if (currSize >= size / 2)
         {
             Handle[] temp = new Handle[size];
+
             for (int i = 0; i < hashMap.length; i++)
             {
                 temp[i] = hashMap[i];
@@ -126,7 +127,10 @@ public class HashTable
                     String str = getStringFromBytes(temp[i]);
 
                     int newpos = searchAndReturnBestPosToPlace(str);
-                    hashMap[newpos] = temp[i];
+
+                    if (temp[i].getData() != -1) {
+                        hashMap[newpos] = temp[i];
+                    }
                 }
             }
         }
@@ -206,6 +210,11 @@ public class HashTable
         if (hashMap[pos].getData() == -1
             || !getStringFromBytes(hashMap[pos]).equals(stringToInsert))
         {
+
+            if (hashMap[pos].getData() == -1 && tombstoneIdx == -1)
+            {
+                tombstoneIdx = pos;
+            }
 
             int i = 1;
             pos += (i * i);

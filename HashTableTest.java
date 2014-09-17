@@ -97,4 +97,30 @@ public class HashTableTest extends TestCase
         assertEquals(0, manager.getHashTableArtists().get("woop").getData());
     }
 
+    /**
+     *
+     */
+    public void testComplicated() throws Exception {
+
+        manager = new MemManager(32, 10);
+
+        assertTrue(manager.getHashTableArtists().put("aaaabbbbcccc"));
+        assertTrue(manager.getHashTableArtists().put("aaaaccccbbbb"));
+        assertTrue(manager.getHashTableArtists().put("bbbbaaaacccc"));
+        assertTrue(manager.getHashTableArtists().put("bbbbccccaaaa"));
+        assertTrue(manager.getHashTableArtists().put("ccccbbbbaaaa"));
+
+        manager.getHashTableArtists().print();
+
+        assertTrue(manager.getHashTableArtists().put("ccccaaaabbbb"));
+        manager.getHashTableArtists().print();
+
+        assertTrue(manager.getHashTableArtists().remove("ccccaaaabbbb"));
+        assertTrue(manager.getHashTableArtists().remove("bbbbaaaacccc"));
+        assertEquals(-1, manager.getHashTableArtists().searchAndReturnPosOfString("bbbbaaaacccc"));
+        assertEquals(-1, manager.getHashTableArtists().searchAndReturnPosOfString("ccccaaaabbbb"));
+
+
+    }
+
 }

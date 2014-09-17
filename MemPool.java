@@ -122,7 +122,7 @@ public class MemPool
         {
             int currDiff = freeblockList.getCurrentLength() - length;
             // we change our best difference if the new one is closer to 0.
-            if (0 <= currDiff && currDiff < bestDiff)
+            if (currDiff >= 0 && currDiff < bestDiff)
             {
                 bestPos = freeblockList.getCurrentPosition();
                 bestDiff = currDiff;

@@ -122,6 +122,10 @@ public class Memman
                     break;
                 case "remove":
                     info = command[1].split(" ", 2);
+
+                    info[0] = info[0].trim();
+                    info[1] = info[1].trim();
+
                     switch (info[0])
                     {
                         case "artist":
@@ -172,6 +176,8 @@ public class Memman
                         default:
                             break;
                     }
+                    break;
+                default:
                     break;
             }
         }
