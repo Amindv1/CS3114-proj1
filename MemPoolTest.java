@@ -91,9 +91,9 @@ public class MemPoolTest
         pool.remove(h3);
         assertEquals(2, pool.getLinkedList().size());
         pool.remove(h5);
-        assertEquals(2, pool.getLinkedList().size());
+        assertEquals(1, pool.getLinkedList().size());
         pool.remove(h1);
-        assertEquals(2, pool.getLinkedList().size());
+        assertEquals(1, pool.getLinkedList().size());
         assertEquals(50, pool.getCurrentPoolSize());
     }
 

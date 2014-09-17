@@ -202,7 +202,7 @@ public class MemPool
     {
 
         freeblockList.moveToFront();
-        for (int i = 1; i < freeblockList.size(); i++)
+        for (int i = 0; i < freeblockList.size(); i++)
         {
             int end = freeblockList.getCurrentPosition() +
                 freeblockList.getCurrentLength();

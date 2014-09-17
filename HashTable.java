@@ -70,12 +70,13 @@ public class HashTable
     {
 
         int pos = searchAndReturnBestPosToPlace(str);
-        System.out.println(str + " , " + pos);
         if (pos == -1)
         {
             return false;
         }
+
         hashMap[pos] = memoryManager.insert(str.getBytes(), str.length());
+
         currSize++;
         rehash();
         return true;
@@ -119,7 +120,7 @@ public class HashTable
 
             for (int i = 0; i < size / 2; i++)
             {
-                if (temp[i] != null)
+                if (getStringFromBytes(temp[i]) != null)
                 {
 
                     String str = getStringFromBytes(temp[i]);
@@ -190,6 +191,10 @@ public class HashTable
     public int searchAndReturnBestPosToPlace(String stringToInsert)
         throws Exception
     {
+        if (stringToInsert == null)
+        {
+            return -1;
+        }
         int home = (int)hashString(stringToInsert);
         int pos = home;
         int tombstoneIdx = -1;
@@ -244,47 +249,6 @@ public class HashTable
 
         return pos;
     }
-
-
-// for (int i = 0; getStringFromBytes(hashMap[pos]) != null; i++)
-// {
-//
-// String str = getStringFromBytes(hashMap[pos]);
-// // we found our first tombstone so we want to replace it with
-// // our value if we don't find a duplicate
-// if (tombstoneIdx == -1 && hashMap[pos].getData() == -1)
-// {
-// tombstoneIdx = pos;
-// }
-//
-// // a duplicate of the string was found return -1
-// if (str.equals(stringToInsert))
-// {
-// return -1;
-// }
-//
-// pos = home;
-// pos += i * i;
-// pos = (pos % size);
-//
-// // we ended up in the same location so that means that we did not
-// // hit a null location and our array is full of toumbstones.
-// // we return the pos we started at
-// if (pos == home && i != 0)
-// {
-// bestPos = tombstoneIdx;
-// return bestPos;
-// }
-// }
-//
-// bestPos = pos;
-//
-// if (tombstoneIdx != -1)
-// {
-// bestPos = tombstoneIdx;
-// }
-//
-// return bestPos;
 
     /**
      * @return returns the size of the hashmap

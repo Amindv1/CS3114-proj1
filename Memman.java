@@ -72,10 +72,13 @@ public class Memman
                             System.out
                                 .println("Artist hash table size doubled.");
                         }
-                        if (msize < mm.getPoolSize())
+                        int k = mm.getPoolSize() - msize;
+                        k = k / poolSize;
+                        for(int i = 1; i <= k; i++)
                         {
+                            int bytes = i * poolSize + msize;
                             System.out.println("Memory pool expanded to be "
-                                + mm.getPoolSize() + " bytes.");
+                                + bytes + " bytes.");
                         }
                         System.out.println("|" + info[0]
                             + "| is added to the artist database.");
@@ -96,10 +99,13 @@ public class Memman
                         {
                             System.out.println("Song hash table size doubled.");
                         }
-                        if (msize < mm.getPoolSize())
+                        int k = mm.getPoolSize() - msize;
+                        k = k / poolSize;
+                        for(int i = 1; i <= k; i++)
                         {
+                            int bytes = i * poolSize + msize;
                             System.out.println("Memory pool expanded to be "
-                                + mm.getPoolSize() + " bytes.");
+                                + bytes + " bytes.");
                         }
                         System.out.println("|" + info[1]
                             + "| is added to the song database.");
