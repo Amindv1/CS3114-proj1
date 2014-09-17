@@ -1,3 +1,7 @@
+package davoodi.src;
+
+import junit.framework.TestCase;
+
 /**
  * Tests for the {@link DoublyLinkedList} class.
  *
@@ -5,7 +9,7 @@
  * @version (2013.10.24)
  */
 public class DoublyLinkedListTest
-    extends student.TestCase
+    extends TestCase
 {
     // ~ Instance/static variables .............................................
 

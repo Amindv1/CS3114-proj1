@@ -1,3 +1,4 @@
+package davoodi.src;
 import java.util.NoSuchElementException;
 
 /**
@@ -117,6 +118,18 @@ public class DoublyLinkedList
         if (size != 0)
         {
             current = head.next();
+        }
+    }
+
+
+    /**
+     * moves to the end of the linked list
+     */
+    public void moveToRear()
+    {
+        if (size != 0)
+        {
+            current = tail.previous();
         }
     }
 

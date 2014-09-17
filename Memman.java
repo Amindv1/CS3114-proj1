@@ -1,116 +1,171 @@
+package davoodi.src;
 import java.io.FileReader;
-import java.io.File;
-import java.io.InputStreamReader;
-import java.io.FileInputStream;
 import java.io.BufferedReader;
 
+/**
+ * Write a one-sentence summary of your class here. Follow it with additional
+ * details about its purpose, what abstraction it represents, and how to use it.
+ *
+ * @author Amin Davoodi (amind1)
+ * @author Burhan Ishaq (iburhan)
+ * @version Sep 16, 2014
+ */
 public class Memman
 {
-    private static MemManager memman;
-    public static void main(String[] args) throws NumberFormatException, Exception
-    {
+    private static MemManager mm;
 
+    /**
+     * Main.
+     *
+     * @param args takes String arguments in an array
+     * @throws Exception if parse fails
+     */
+    public static void main(String[] args) throws Exception
+    {
         parse(Integer.parseInt(args[0]), Integer.parseInt(args[1]), args[2]);
     }
 
-    public static void parse(int hashSize, int poolSize, String path) throws Exception
+
+    /**
+     * @return MemManager
+     */
+    public MemManager get()
     {
-        memman = new MemManager(poolSize, hashSize);
-        BufferedReader in = new BufferedReader(new FileReader("input.txt"));
+        return mm;
+    }
+
+    /**
+     * Parses through the file.
+     *
+     * @param hashSize initial size of the HashTable
+     * @param poolSize initial size of the memory pool
+     * @param path String pathname to file input
+     * @throws Exception if the method fails
+     */
+    public static void parse(int hashSize, int poolSize, String path)
+        throws Exception
+    {
+        mm = new MemManager(poolSize, hashSize);
+        BufferedReader in = new BufferedReader(new FileReader(path));
 
         String line;
         String[] command;
         String[] info;
 
-        while(in.ready())
+        while (in.ready())
         {
             line = in.readLine();
             command = line.split(" ", 2);
-            switch(command[0])
+            switch (command[0])
             {
                 case "insert":
                     info = command[1].split("<SEP>");
-                    int asize = memman.getHashTableArtists().size();
-                    int msize = memman.getPoolSize();
-                    if (memman.getHashTableArtists().put(info[0])) {
-                        if (asize < memman.getHashTableArtists().size())
+                    int asize = mm.getHashTableArtists().size();
+                    int msize = mm.getPoolSize();
+                    if (mm.getHashTableArtists().put(info[0]))
+                    {
+                        if (asize < mm.getHashTableArtists().size())
                         {
-                            System.out.println("Artist hash table size doubled.");
+                            System.out
+                                .println("Artist hash table size doubled.");
                         }
-                        if (msize < memman.getPoolSize())
+                        if (msize < mm.getPoolSize())
                         {
-                            System.out.println("Memory pool expanded to be " + memman.getPoolSize() + " bytes.");
+                            System.out.println("Memory pool expanded to be "
+                                + mm.getPoolSize() + " bytes.");
                         }
-                        System.out.println("|" + info[0] + "| is added to the artist database.");
+                        System.out.println("|" + info[0]
+                            + "| is added to the artist database.");
 
                     }
-                    else {
-                        System.out.println("|" + info[0] +  "| duplicates a record already in the artist database.");
+                    else
+                    {
+                        System.out
+                            .println("|"
+                                + info[0]
+                                + "| duplicates a record already in the artist database.");
                     }
-                    msize = memman.getPoolSize();
-                    int ssize = memman.getHashTableSongs().size();
-                    if (memman.getHashTableSongs().put(info[1])) {
-                        if (ssize < memman.getHashTableSongs().size())
+                    msize = mm.getPoolSize();
+                    int ssize = mm.getHashTableSongs().size();
+                    if (mm.getHashTableSongs().put(info[1]))
+                    {
+                        if (ssize < mm.getHashTableSongs().size())
                         {
                             System.out.println("Song hash table size doubled.");
                         }
-                        if (msize < memman.getPoolSize())
+                        if (msize < mm.getPoolSize())
                         {
-                            System.out.println("Memory pool expanded to be " + memman.getPoolSize() + " bytes.");
+                            System.out.println("Memory pool expanded to be "
+                                + mm.getPoolSize() + " bytes.");
                         }
-                        System.out.println("|" + info[1] + "| is added to the song database.");
+                        System.out.println("|" + info[1]
+                            + "| is added to the song database.");
 
                     }
-                    else {
-                        System.out.println("|" + info[1] +  "| duplicates a record already in the song database.");
+                    else
+                    {
+                        System.out
+                            .println("|"
+                                + info[1]
+                                + "| duplicates a record already in the song database.");
                     }
 
                     break;
                 case "remove":
                     info = command[1].split(" ", 2);
-                    switch(info[0])
+                    switch (info[0])
                     {
                         case "artist":
-                            if (memman.getHashTableArtists().remove(info[1]))
+                            if (mm.getHashTableArtists().remove(info[1]))
                             {
-                                System.out.println("|" + info[1] + "| is removed from the artist database.");
+                                System.out.println("|" + info[1]
+                                    + "| is removed from the artist database.");
                             }
                             else
                             {
-                                System.out.println("|" + info[1] + "| does not exist in the artist database.");
+                                System.out.println("|" + info[1]
+                                    + "| does not exist in the artist "
+                                    + "database.");
                             }
                             break;
                         case "song":
-                            if (memman.getHashTableSongs().remove(info[1]))
+                            if (mm.getHashTableSongs().remove(info[1]))
                             {
-                                System.out.println("|" + info[1] + "| is removed from the song database.");
+                                System.out.println("|" + info[1]
+                                    + "| is removed from the song database.");
                             }
                             else
                             {
-                                System.out.println("|" + info[1] + "| does not exist in the song database.");
+                                System.out.println("|" + info[1]
+                                    + "| does not exist in the song database.");
                             }
+                            break;
+                        default:
                             break;
                     }
                     break;
                 case "print":
-                    switch(command[1])
+                    switch (command[1])
                     {
                         case "artist":
-                            memman.getHashTableArtists().print();
-                            System.out.println("total artists: " +
-                                memman.getHashTableArtists().currentSize());
+                            mm.getHashTableArtists().print();
+                            System.out.println("total artists: "
+                                + mm.getHashTableArtists().currentSize());
                             break;
                         case "song":
-                            memman.getHashTableSongs().print();
-                            System.out.println("total songs: " +
-                                memman.getHashTableSongs().currentSize());
+                            mm.getHashTableSongs().print();
+                            System.out.println("total songs: "
+                                + mm.getHashTableSongs().currentSize());
                             break;
                         case "blocks":
-                            memman.dump();
+                            mm.dump();
+                            break;
+                        default:
                             break;
                     }
                     break;
             }
         }
+        in.close();
     }
 }

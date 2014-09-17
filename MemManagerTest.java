@@ -1,3 +1,7 @@
+package davoodi.src;
+
+import junit.framework.TestCase;
+
 /**
  * Write a one-sentence summary of your class here. Follow it with additional
  * details about its purpose, what abstraction it represents, and how to use it.
@@ -6,7 +10,7 @@
  * @version Sep 11, 2014
  */
 public class MemManagerTest
-    extends student.TestCase
+    extends TestCase
 {
     private MemManager manager;
 

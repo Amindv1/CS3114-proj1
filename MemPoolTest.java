@@ -1,3 +1,7 @@
+package davoodi.src;
+
+import junit.framework.TestCase;
+
 /**
  * // -------------------------------------------------------------------------
  * /** Write a one-sentence summary of your class here. Follow it with
@@ -8,7 +12,7 @@
  * @version Sep 13, 2014
  */
 public class MemPoolTest
-    extends student.TestCase
+    extends TestCase
 {
 
     private MemPool pool;
@@ -89,9 +93,9 @@ public class MemPoolTest
         pool.remove(h3);
         assertEquals(2, pool.getLinkedList().size());
         pool.remove(h5);
-        assertEquals(1, pool.getLinkedList().size());
+        assertEquals(2, pool.getLinkedList().size());
         pool.remove(h1);
-        assertEquals(1, pool.getLinkedList().size());
+        assertEquals(2, pool.getLinkedList().size());
         assertEquals(50, pool.getCurrentPoolSize());
     }
 
