@@ -73,7 +73,7 @@ public class HashTable
      * @return returns the statement corresponding to the situation
      * @throws Exception
      */
-    public boolean put(String string)
+    public boolean newPut(String string)
         throws Exception
     {
 
@@ -117,9 +117,54 @@ public class HashTable
         }
 
         return false;
-
-
     }
+
+
+
+
+    public boolean put(String str) throws Exception {
+
+        int pos = searchAndReturnBestPosToPlace(str, size);
+
+        if (pos == -1) {
+            return false;
+        }
+
+        hashMap[pos] = memoryManager.insert(str.getBytes(), str.length());
+        currSize++;
+        rehash();
+        return true;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public void print() throws Exception {
 
