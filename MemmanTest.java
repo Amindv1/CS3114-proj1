@@ -1,5 +1,3 @@
-package davoodi.src;
-
 import junit.framework.TestCase;
 
 /**
@@ -25,6 +23,6 @@ public class MemmanTest extends TestCase
         String[] s = {"10", "32", "input.txt"};
         mm.main(s);
 
-        assertEquals(6, mm.get().getHashTableArtists().currentSize());
+        assertEquals(8, mm.get().getHashTableArtists().currentSize());
     }
 }

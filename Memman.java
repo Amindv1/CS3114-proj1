@@ -1,4 +1,3 @@
-package davoodi.src;
 import java.io.FileReader;
 import java.io.BufferedReader;
 

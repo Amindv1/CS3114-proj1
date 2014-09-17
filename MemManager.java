@@ -1,4 +1,3 @@
-package davoodi.src;
 /**
  * This class takes in inputs and adds them into the memory pool. It maintains
  * the size and locations of the entries through the doubly linked list, hashmap

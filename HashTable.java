@@ -1,4 +1,3 @@
-package davoodi.src;
 /**
  * // -------------------------------------------------------------------------
  * /** This is the implementation of the hash table data structure.
@@ -66,68 +65,14 @@ public class HashTable
     }
 
 
-    /**
-     * puts a handle into the map
-     *
-     * @param string
-     *            the string we want to put in
-     * @return returns the statement corresponding to the situation
-     * @throws Exception
-     */
-    public boolean newPut(String string)
+    public boolean put(String str)
         throws Exception
     {
 
-        int position = (int)hashString(string);
-
-        // if there is nothing in the position
-        if (getStringFromBytes(hashMap[position]) == null)
-        {
-            position = searchAndReturnBestPosToPlace(string, size);
-
-            Handle handle =
-                memoryManager.insert(string.getBytes(), string.length());
-            hashMap[position] = handle;
-            currSize++;
-            rehash();
-            return true;
-        }
-
-        // if the position is already taken but it isn't same value
-        if (getStringFromBytes(hashMap[position]) != null && !(getStringFromBytes(hashMap[position]).equals(string)))
-        {
-
-            // if the probe method finds the string inside it then return
-            // that the string already exists
-            int k = searchAndReturnBestPosToPlace(string, size);
-            if (k == -1)
-            {
-                return false;
-            }
-            Handle handle =
-                memoryManager.insert(string.getBytes(), string.length());
-            hashMap[k] = handle;
-            currSize++;
-            rehash();
-            return true;
-        }
-        // if the position is already taken and is same value
-        else if (getStringFromBytes(hashMap[position]) != null && (getStringFromBytes(hashMap[position]).equals(string)))
-        {
-            return false;
-        }
-
-        return false;
-    }
-
-
-
-
-    public boolean put(String str) throws Exception {
-
         int pos = searchAndReturnBestPosToPlace(str, size);
 
-        if (pos == -1) {
+        if (pos == -1)
+        {
             return false;
         }
 
@@ -138,46 +83,22 @@ public class HashTable
     }
 
 
+    public void print()
+        throws Exception
+    {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public void print() throws Exception {
-
-        for(int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++)
+        {
 
             String s = getStringFromBytes(hashMap[i]);
 
-            if (s != null && hashMap[i].getData() != -1 && hashMap[i] != null) {
+            if (s != null && hashMap[i].getData() != -1 && hashMap[i] != null)
+            {
                 System.out.println("|" + s + "| " + i);
             }
         }
     }
+
 
     /**
      * re-hash's the entire array when we try to add over half the size
@@ -190,13 +111,14 @@ public class HashTable
         if (currSize > size / 2)
         {
             Handle[] temp = new Handle[size];
-            for (int i = 0; i < hashMap.length; i++) {
+            for (int i = 0; i < hashMap.length; i++)
+            {
                 temp[i] = hashMap[i];
             }
 
             hashMap = new Handle[size *= 2];
 
-            for (int i = 0; i < size/2; i++)
+            for (int i = 0; i < size / 2; i++)
             {
                 if (temp[i] != null)
                 {

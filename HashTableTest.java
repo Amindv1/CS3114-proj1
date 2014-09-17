@@ -1,4 +1,3 @@
-package davoodi.src;
 
 import junit.framework.TestCase;
 
