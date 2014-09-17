@@ -68,115 +68,44 @@ public class HashTable
     /**
      * puts a handle into the map
      *
-     * @param string
+     * @param str
      *            the string we want to put in
      * @return returns the statement corresponding to the situation
      * @throws Exception
      */
-    public boolean newPut(String string)
+    public boolean put(String str)
         throws Exception
     {
 
-        int position = (int)hashString(string);
+        int pos = searchAndReturnBestPosToPlace(str);
 
-        // if there is nothing in the position
-        if (getStringFromBytes(hashMap[position]) == null)
-        {
-            position = searchAndReturnBestPosToPlace(string, size);
-
-            Handle handle =
-                memoryManager.insert(string.getBytes(), string.length());
-            hashMap[position] = handle;
-            currSize++;
-            rehash();
-            return true;
-        }
-
-        // if the position is already taken but it isn't same value
-        if (getStringFromBytes(hashMap[position]) != null && !(getStringFromBytes(hashMap[position]).equals(string)))
-        {
-
-            // if the probe method finds the string inside it then return
-            // that the string already exists
-            int k = searchAndReturnBestPosToPlace(string, size);
-            if (k == -1)
-            {
-                return false;
-            }
-            Handle handle =
-                memoryManager.insert(string.getBytes(), string.length());
-            hashMap[k] = handle;
-            currSize++;
-            rehash();
-            return true;
-        }
-        // if the position is already taken and is same value
-        else if (getStringFromBytes(hashMap[position]) != null && (getStringFromBytes(hashMap[position]).equals(string)))
+        if (pos == -1)
         {
             return false;
         }
-
-        return false;
-    }
-
-
-
-
-    public boolean put(String str) throws Exception {
-
-        int pos = searchAndReturnBestPosToPlace(str, size);
-
-        if (pos == -1) {
-            return false;
-        }
-
+        rehash();
         hashMap[pos] = memoryManager.insert(str.getBytes(), str.length());
         currSize++;
-        rehash();
         return true;
     }
 
 
+    public void print()
+        throws Exception
+    {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public void print() throws Exception {
-
-        for(int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++)
+        {
 
             String s = getStringFromBytes(hashMap[i]);
 
-            if (s != null && hashMap[i].getData() != -1 && hashMap[i] != null) {
+            if (s != null && hashMap[i].getData() != -1 && hashMap[i] != null)
+            {
                 System.out.println("|" + s + "| " + i);
             }
         }
     }
+
 
     /**
      * re-hash's the entire array when we try to add over half the size
@@ -186,23 +115,24 @@ public class HashTable
     private void rehash()
         throws Exception
     {
-        if (currSize > size / 2)
+        if (currSize >= size / 2)
         {
             Handle[] temp = new Handle[size];
-            for (int i = 0; i < hashMap.length; i++) {
+            for (int i = 0; i < hashMap.length; i++)
+            {
                 temp[i] = hashMap[i];
             }
 
             hashMap = new Handle[size *= 2];
 
-            for (int i = 0; i < size/2; i++)
+            for (int i = 0; i < size / 2; i++)
             {
                 if (temp[i] != null)
                 {
 
                     String str = getStringFromBytes(temp[i]);
 
-                    int newpos = searchAndReturnBestPosToPlace(str, size);
+                    int newpos = searchAndReturnBestPosToPlace(str);
                     hashMap[newpos] = temp[i];
                 }
             }
@@ -221,7 +151,6 @@ public class HashTable
     private String getStringFromBytes(Handle h)
         throws Exception
     {
-        // if the handle is a toumbstone then we don't want to return null
         if (h == null || h.getData() == -1)
         {
             return null;
@@ -265,15 +194,15 @@ public class HashTable
      * @return returns the next null position that is available.
      * @throws Exception
      */
-    public int searchAndReturnBestPosToPlace(String stringToInsert, int size)
+    public int searchAndReturnBestPosToPlace(String stringToInsert)
         throws Exception
     {
         int home = (int)hashString(stringToInsert);
         int pos = home;
-        int bestPos = home;
+        int bestPos;
         int tombstoneIdx = -1;
 
-        for (int i = 1; getStringFromBytes(hashMap[pos]) != null; i++)
+        for (int i = 0; hashMap[pos] != null; i++)
         {
 
             String str = getStringFromBytes(hashMap[pos]);
@@ -284,12 +213,11 @@ public class HashTable
                 tombstoneIdx = pos;
             }
 
-            // a duplicate of the string was found return -1
-            if (str.equals(stringToInsert))
+            if (hashMap[pos].getData() != -1 && str.equals(stringToInsert))
             {
+                // a duplicate of the string was found return -1
                 return -1;
             }
-
             pos = home;
             pos += i * i;
             pos = (pos % size);
@@ -297,7 +225,7 @@ public class HashTable
             // we ended up in the same location so that means that we did not
             // hit a null location and our array is full of toumbstones.
             // we return the pos we started at
-            if (pos == home)
+            if (pos == home && i != 0)
             {
                 bestPos = tombstoneIdx;
                 return bestPos;
@@ -380,7 +308,7 @@ public class HashTable
         {
             return -1;
         }
-        else if (getStringFromBytes(hashMap[position]).equals(key))
+        else if (hashMap[position].getData() != -1 && getStringFromBytes(hashMap[position]).equals(key))
         {
             return position;
         }
@@ -395,7 +323,7 @@ public class HashTable
                 {
                     return -1;
                 }
-                if (getStringFromBytes(hashMap[position]).equals(key))
+                if (hashMap[position].getData() != -1 && getStringFromBytes(hashMap[position]).equals(key))
                 {
                     return position;
                 }

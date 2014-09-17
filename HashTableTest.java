@@ -84,6 +84,7 @@ public class HashTableTest extends student.TestCase
      */
     public void testRemove() throws Exception {
         manager.getHashTableArtists().put("woop");
+        int i = manager.getHashTableArtists().searchAndReturnPosOfString("woop");
         assertEquals(0, manager.getHashTableArtists().get("woop").getData());
         assertTrue(manager.getHashTableArtists().remove("woop"));
 
@@ -92,6 +93,28 @@ public class HashTableTest extends student.TestCase
 
         manager.getHashTableArtists().put("woop");
         assertEquals(0, manager.getHashTableArtists().get("woop").getData());
+
+        assertEquals(i, manager.getHashTableArtists().searchAndReturnPosOfString("woop"));
+
+        assertTrue(manager.getHashTableArtists().remove("woop"));
+
+        manager.getHashTableArtists().put("aaaabbbbcccc");
+        manager.getHashTableArtists().put("bbbbaaaacccc");
+        manager.getHashTableArtists().put("ccccaaaabbbb");
+        i = manager.getHashTableArtists().searchAndReturnPosOfString("aaaabbbbcccc");
+
+
+        assertTrue(manager.getHashTableArtists().remove("aaaabbbbcccc"));
+        assertTrue(manager.getHashTableArtists().put("aaaabbbbcccc"));
+        assertEquals(i, manager.getHashTableArtists().searchAndReturnPosOfString("aaaabbbbcccc"));
+
+        i = manager.getHashTableArtists().searchAndReturnPosOfString("bbbbaaaacccc");
+        manager.getHashTableArtists().put("ccccbbbbaaaa");
+        assertTrue(manager.getHashTableArtists().remove("bbbbaaaacccc"));
+
+        assertFalse(manager.getHashTableArtists().put("ccccbbbbaaaa"));
+
+        assertEquals(5, manager.getHashTableArtists().searchAndReturnPosOfString("ccccbbbbaaaa"));
     }
 
 }
