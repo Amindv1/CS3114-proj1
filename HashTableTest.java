@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 /**
  * // -------------------------------------------------------------------------
 /**
- *  This class tests the Hashmanager.getHashTableArtists() class.
+ *  This class tests the HashTable class class.
  *
  *  @author Amin Davoodi (amind1)
  *  @version Sep 10, 2014
@@ -18,7 +18,7 @@ public class HashTableTest extends TestCase
     }
 
     /**
-     * tests the hash method
+     * tests the put method
      * @throws Exception
      */
     public void testPut() throws Exception {
@@ -82,7 +82,7 @@ public class HashTableTest extends TestCase
     }
 
     /**
-     * Place a description of your method here.
+     * Tests the remove method
      * @throws Exception
      */
     public void testRemove() throws Exception {
@@ -98,6 +98,8 @@ public class HashTableTest extends TestCase
     }
 
     /**
+     * Tests a complicated series of insertions and deletions
+     * @throws Exception
      *
      */
     public void testComplicated() throws Exception {

@@ -6,7 +6,8 @@
  * The join and split methods manage both connections simultaneously to ensure
  * that the consistency of links in the chain is preserved at all times.
  *
- * @author Amin Davoodi
+ * @author Amin Davoodi (amind1)
+ * @author Burhan Ishaq (iburhan)
  * @version 2012.10.22
  */
 public class Node
@@ -53,7 +54,7 @@ public class Node
 
 
     /**
-     *
+     * @return position value
      */
     public int getPosition()
     {
@@ -62,7 +63,9 @@ public class Node
 
 
     /**
+     * Sets the position of the Node.
      *
+     * @param position new position to set
      */
     public void setPosition(int position)
     {

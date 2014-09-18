@@ -55,6 +55,8 @@ public class Memman
         {
             line = in.readLine();
             command = line.split(" ", 2);
+            //we use switch statements to read each command and in each case
+            //we perform the command
             switch (command[0])
             {
                 case "insert":
@@ -74,7 +76,7 @@ public class Memman
                         }
                         int k = mm.getPoolSize() - msize;
                         k = k / poolSize;
-                        for(int i = 1; i <= k; i++)
+                        for (int i = 1; i <= k; i++)
                         {
                             int bytes = i * poolSize + msize;
                             System.out.println("Memory pool expanded to be "
@@ -89,7 +91,8 @@ public class Memman
                         System.out
                             .println("|"
                                 + info[0]
-                                + "| duplicates a record already in the artist database.");
+                                + "| duplicates a record already in the artist "
+                                + "database.");
                     }
                     msize = mm.getPoolSize();
                     int ssize = mm.getHashTableSongs().size();
@@ -99,6 +102,8 @@ public class Memman
                         {
                             System.out.println("Song hash table size doubled.");
                         }
+                        //we find out how many times our memory pool has been
+                        //increased and print out each increase in order
                         int k = mm.getPoolSize() - msize;
                         k = k / poolSize;
                         for(int i = 1; i <= k; i++)
@@ -116,13 +121,14 @@ public class Memman
                         System.out
                             .println("|"
                                 + info[1]
-                                + "| duplicates a record already in the song database.");
+                                + "| duplicates a record already in the song "
+                                + "database.");
                     }
 
                     break;
                 case "remove":
                     info = command[1].split(" ", 2);
-
+                    //get rid of extra spaces
                     info[0] = info[0].trim();
                     info[1] = info[1].trim();
 
@@ -184,3 +190,25 @@ public class Memman
         in.close();
     }
 }
+
+//On my honor:
+//
+//- I have not used source code obtained from another student,
+//or any other unauthorized source, either modified or
+//unmodified.
+//
+//- All source code and documentation used in my program is
+//either my original work, or was derived by me from the
+//source code published in the textbook for this course.
+//
+//- I have not discussed coding details about this project with
+//anyone other than my partner (in the case of a joint
+//submission), instructor, ACM/UPE tutors or the TAs assigned
+//to this course. I understand that I may discuss the concepts
+//of this program with other students, and that another student
+//may help me debug my program so long as neither of us writes
+//anything during the discussion or modifies any computer file
+//during the discussion. I have violated neither the spirit nor
+//letter of this restriction.
+//
+// <Amin Davoodi (amind1)> <Burhan Ishaq (iburhan)>
