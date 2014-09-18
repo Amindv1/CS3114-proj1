@@ -100,7 +100,6 @@ public class DoublyLinkedListTest
         assertEquals(5, list.size());
     }
 
-
     /**
      * tests the move to position method
      */
@@ -155,7 +154,6 @@ public class DoublyLinkedListTest
         assertEquals(2, list.getCurrentPosition());
     }
 
-
     /**
      * tests the previous method
      */
@@ -166,6 +164,8 @@ public class DoublyLinkedListTest
         list.add(2, 2);
 
         assertEquals(2, list.getCurrentPosition());
+        list.previous();
+        assertEquals(1, list.getCurrentPosition());
         list.previous();
         assertEquals(1, list.getCurrentPosition());
     }
@@ -183,6 +183,8 @@ public class DoublyLinkedListTest
 
         assertEquals(1, list.getCurrentPosition());
         assertEquals(2, list.getNext().getPosition());
+        list.next();
+        assertNull(list.getNext());
     }
 
 

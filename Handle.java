@@ -14,7 +14,7 @@ public class Handle
      * create the handle
      *
      * @param position
-     *            the position od the data in the memory pool.
+     *            the position of the data in the memory pool.
      */
     public Handle(int position)
     {
@@ -45,16 +45,8 @@ public class Handle
     }
 
 
-    public String toString()
-    {
-        String s = "";
-        s += getData();
-        return s;
-    }
-
-
     /**
-     * Place a description of your method here.
+     * compares the handles data to see if they are equal
      *
      * @param h
      *            the handle to check
@@ -63,15 +55,7 @@ public class Handle
     public boolean equals(Handle h)
     {
 
-        if (h == null)
-        {
-            return false;
-        }
+        return (h != null) && (pos == h.getData());
 
-        if (pos == h.getData())
-        {
-            return true;
-        }
-        return false;
     }
 }

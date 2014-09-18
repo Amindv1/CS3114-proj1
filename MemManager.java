@@ -1,9 +1,10 @@
 /**
  * This class takes in inputs and adds them into the memory pool. It maintains
- * the size and locations of the entries through the doubly linked list, hashmap
- * and the memory pool
+ * the size and locations of the entries through the memory pool datasture that
+ * we implemented
  *
  * @author Amin Davoodi (amind1)
+ * @author Burhan Ishaq
  * @version Sep 11, 2014
  */
 public class MemManager
@@ -11,20 +12,6 @@ public class MemManager
     private HashTable        hashMapArtists;
     private HashTable        hashMapSongs;
     private MemPool          memPool;
-
-
-//    /**
-//     * creates a memory manager object
-//     *
-//     * @param poolsize
-//     *            the poolsize for the memory pool
-//     */
-//    public MemManager(int poolsize)
-//    {
-//        memPool = new MemPool(poolsize);
-//        hashMapArtists = new HashTable(50, this);
-//        hashMapSongs = new HashTable(50, this);
-//    }
 
     /**
      * a constructor that also takes a tablesize
@@ -68,7 +55,7 @@ public class MemManager
     /**
      * takes the handle and returns the corresponding string
      *
-     * @param h
+     * @param h the handle to take
      * @return returns the byte array corresponding the handle
      */
     public byte[] getValue(Handle h)
@@ -98,6 +85,7 @@ public class MemManager
 
     /**
     * returns the hashtable of songs
+    *
     * @return the hashtable of songs
     */
     public HashTable getHashTableSongs()
@@ -108,6 +96,7 @@ public class MemManager
 
     /**
      * gets the current poolsize
+     * @return the poolsize
      */
     public int getPoolSize()
     {

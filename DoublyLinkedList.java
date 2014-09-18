@@ -1,5 +1,3 @@
-import java.util.NoSuchElementException;
-
 /**
  * // -------------------------------------------------------------------------
  * /** This is the linked list used to store the free blocks in the memory
@@ -37,14 +35,8 @@ public class DoublyLinkedList
      */
     public int getCurrentLength()
     {
-        if (size != 0)
-        {
-            return current.getLength();
-        }
-        else
-        {
-            throw new NoSuchElementException("The list is empty");
-        }
+        return current.getLength();
+
     }
 
 
@@ -56,55 +48,35 @@ public class DoublyLinkedList
      */
     public int getCurrentPosition()
     {
-        if (size != 0)
-        {
-            return current.getPosition();
-        }
-        else
-        {
-            throw new NoSuchElementException("The list is empty");
-        }
+        return current.getPosition();
+
     }
 
 
     /**
-     * sets the length of the current node. throws an exception if the list
-     * is empty.
+     * sets the length of the current node. throws an exception if the list is
+     * empty.
      *
      * @param length
      *            the length to set it to
      */
     public void setCurrentLength(int length)
     {
-        if (size != 0)
-        {
-            current.setLength(length);
-        }
-        else
-        {
-            throw new NoSuchElementException("The list is empty");
-        }
+        current.setLength(length);
 
     }
 
 
     /**
-     * sets the position of the current node. throws an exception if the list
-     * is empty.
+     * sets the position of the current node. throws an exception if the list is
+     * empty.
      *
      * @param position
      *            the position to set it to
      */
     public void setCurrentPosition(int position)
     {
-        if (size != 0)
-        {
-            current.setPosition(position);
-        }
-        else
-        {
-            throw new NoSuchElementException("The list is empty");
-        }
+        current.setPosition(position);
 
     }
 
@@ -117,18 +89,6 @@ public class DoublyLinkedList
         if (size != 0)
         {
             current = head.next();
-        }
-    }
-
-
-    /**
-     * moves to the end of the linked list
-     */
-    public void moveToRear()
-    {
-        if (size != 0)
-        {
-            current = tail.previous();
         }
     }
 
@@ -185,7 +145,7 @@ public class DoublyLinkedList
         // this loop makes sure that everything that is added to the
         // doubly linked list is sorted by position
         moveToFront();
-        while (current != null && (current.getPosition()) < position)
+        while ((current.getPosition()) < position)
         {
 
             current = current.next();
@@ -214,7 +174,7 @@ public class DoublyLinkedList
     public Node getNext()
     {
 
-        if (current.next() != null)
+        if (current.next() != tail)
         {
             return current.next();
         }
@@ -224,9 +184,12 @@ public class DoublyLinkedList
 
 
     /**
+     * move to the given position in the list
+     *
      * @param position
-     * @return true if the node with the corresponding position exists
-     *         false otherwise
+     *            moves to this position
+     * @return true if the node with the corresponding position exists false
+     *         otherwise
      */
     public boolean moveToPosition(int position)
     {
@@ -243,38 +206,29 @@ public class DoublyLinkedList
                 return false;
             }
         }
-
-        if (position == current.getPosition())
-        {
-            return true;
-        }
-
-        return false;
+        return (position == current.getPosition());
     }
 
 
     /**
      * removes the current node and sets the node before it to the new current
      * node. If the list is empty it throws an exception.
-     *
-     * @return returns the data of the node removed.
      */
     public void removeCurrent()
     {
-        if (size == 0)
+
+        if (size != 0)
         {
-            throw new NoSuchElementException(
-                "The list is empty, there is nothing to remove.");
+
+            Node previous = current.previous();
+            Node next = current.next();
+            current.split();
+            previous.split();
+            previous.join(next);
+            current = previous;
+
+            size--;
         }
-
-        Node previous = current.previous();
-        Node next = current.next();
-        current.split();
-        previous.split();
-        previous.join(next);
-        current = previous;
-
-        size--;
     }
 
 
@@ -291,7 +245,7 @@ public class DoublyLinkedList
 
 
     /**
-     * Empty the deque.
+     * Empty the list
      *
      * @postcondition [new-contents] = []
      */
@@ -301,37 +255,6 @@ public class DoublyLinkedList
         head.split();
         head.join(tail);
         size = 0;
-    }
-
-
-    /**
-     * Returns a string representation of this deque. A deque's string
-     * representation is written as a comma-separated list of its contents (in
-     * front-to-rear order) surrounded by square brackets, like this:
-     *
-     * <pre>
-     * [52, 14, 12, 119, 73, 80, 35]
-     * </pre>
-     * <p>
-     * An empty deque is simply <code>[]</code>.
-     * </p>
-     *
-     * @return a string representation of the deque
-     */
-    public String toString()
-    {
-        Node temp = head.next();
-        String str = "[";
-        for (int i = 0; i < size; i++)
-        {
-            str += (temp.getPosition() + ", ");
-            temp = temp.next();
-        }
-        if (size == 0)
-        {
-            return "[]";
-        }
-        return str.substring(0, str.length() - 2) + "]";
     }
 }
 
