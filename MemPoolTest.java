@@ -122,10 +122,10 @@ public class MemPoolTest
         assertEquals(5, pool.getCurrentPoolSize());
 
         Handle h1 = new Handle(pool.insert("fat".getBytes(), "fat".length()));
-        Handle h2 = new Handle(pool.insert("yolo".getBytes(), "yolo".length()));
-        Handle h3 = new Handle(pool.insert("yolewqeo".getBytes(), "yolewqeo".length()));
-        Handle h4 = new Handle(pool.insert("yolasdo".getBytes(), "yolasdo".length()));
-        Handle h5 = new Handle(pool.insert("yolaklsndklnado".getBytes(), "yolaklsndklnado".length()));
+        pool.insert("yolo".getBytes(), "yolo".length());
+        pool.insert("yolewqeo".getBytes(), "yolewqeo".length());
+        pool.insert("yolasdo".getBytes(), "yolasdo".length());
+        pool.insert("yolaklsndklnado".getBytes(), "yolaklsndklnado".length());
 
         assertEquals(1, pool.getLinkedList().size());
         assertEquals(50, pool.getCurrentPoolSize());
